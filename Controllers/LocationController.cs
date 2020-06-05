@@ -16,7 +16,7 @@ namespace Snehix.Core.API.Controllers
         public string connString { get; set; }
         public LocationController(IConfiguration configuration)
         {
-            connString = configuration.GetConnectionString("Default");
+            connString =  configuration.GetConnectionString("Default");
         }
         // GET api/Entity
         [HttpGet]
