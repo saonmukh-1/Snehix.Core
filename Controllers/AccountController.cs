@@ -11,10 +11,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Snehix.Core.API.Filters;
 
 namespace Snehix.Core.API.Controllers
 {
     [Route("[controller]/[action]")]
+    [CustomException]
+    [ModelValidationAction]
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;

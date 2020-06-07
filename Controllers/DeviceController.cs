@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Snehix.Core.API.Filters;
 using Snehix.Core.API.Models;
 using Snehix.Core.API.Services;
 
 namespace Snehix.Core.API.Controllers
 {
     [Route("api/[controller]")]
-    
+    [CustomException]
+    [ModelValidationAction]
     public class DeviceController : Controller
     {
         public string connString { get; set; }

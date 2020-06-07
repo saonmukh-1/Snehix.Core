@@ -139,31 +139,47 @@ namespace Snehix.Core.API.Services
             }
         }
 
-        public async Task<DataTable> GetAllEntityByType(int typeId)
+        public async Task<List<RawEntityDTO>> GetAllEntity()
         {
-            DataTable dt = new DataTable();
+            var dt = new List<RawEntityDTO>();
             await _connection.OpenAsync();
             using (MySqlCommand cmd = new MySqlCommand("Get_AllEntityByTypeId", _connection))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("TypeId", typeId);
-                var dataReader = cmd.ExecuteReader();
-                dt.Load(dataReader);
+                
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new RawEntityDTO();
+                    row.EntityId = Convert.ToInt32(dr["EntityId"]);
+                    row.EntityName = dr["EntityName"].ToString();
+                    row.EntityDescription = dr["EntityDescription"].ToString();
+                    row.EntityTypeId = Convert.ToInt32(dr["EntityTypeId"]);
+                    row.EntityTypeName = dr["EntityTypeName"].ToString();
+                    dt.Add(row);
+                }
             }
-
+            
             return dt;
         }
 
-        public async Task<DataTable> GetAllEntityById(int id)
+        public async Task<List<EntityDTO>> GetAllEntityById(int id)
         {
-            DataTable dt = new DataTable();
+            List<EntityDTO> dt = new List<EntityDTO>();
             await _connection.OpenAsync();
             using (MySqlCommand cmd = new MySqlCommand("Get_EntityById", _connection))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("entityId", id);
-                var dataReader = cmd.ExecuteReader();
-                dt.Load(dataReader);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new EntityDTO();
+                    row.EntityId = Convert.ToInt32(dr["ID"]);
+                    row.EntityName = dr["Name"].ToString();
+                    row.EntityDescription = dr["Description"].ToString();                   
+                    dt.Add(row);
+                }                
             }
 
             return dt;

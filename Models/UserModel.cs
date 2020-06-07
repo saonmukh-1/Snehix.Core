@@ -14,6 +14,7 @@ namespace Snehix.Core.API.Models
         public string LastName { get; set; }
         public string FatherName { get; set; }
         public string MotherName { get; set; }
+        public string EmailId { get; set; }
         public int? GuardianId { get; set; }
         public int UserTypeId { get; set; }
         public string DateOfBirth { get; set; }

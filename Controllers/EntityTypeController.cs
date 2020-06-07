@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Snehix.Core.API.DTO;
+using Snehix.Core.API.Filters;
 using Snehix.Core.API.Models;
 using Snehix.Core.API.Services;
 
 namespace Snehix.Core.API.Controllers
 {
+    [CustomException]
+    [ModelValidationAction]
     [Route("api/[controller]")]
     public class EntityTypeController : ControllerBase
     {
@@ -25,27 +29,30 @@ namespace Snehix.Core.API.Controllers
         {
             var service = new EntityRepositoryService(connString);
             var result = await service.GetAllEntityType();
-            return Ok(result);// new ObjectResult(result);
+            var response = new GenericResponse<List<EntityTypeResponse>>()
+            {
+                IsSuccess = true,
+                Message = "Data Fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(EntityTypeModel model)
-
-
-
-
-
         {
-            try
+           
+            var service = new EntityRepositoryService(connString);
+            await service.CreateEntityType(model.Name, model.Description);
+            var response = new GenericResponse<string>()
             {
-                var service = new EntityRepositoryService(connString);
-                await service.CreateEntityType(model.Name, model.Description);
-                return new ObjectResult("Success");
-            }
-            catch (Exception ex)
-            {
-                return new ObjectResult("Faliure: " + ex.Message);
-            }
+                IsSuccess = true,
+                Message = "EntityType Created successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
         }
     }
 }

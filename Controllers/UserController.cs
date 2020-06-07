@@ -4,65 +4,100 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Snehix.Core.API.DTO;
 using Snehix.Core.API.Models;
 using Snehix.Core.API.Services;
+using Snehix.Core.API.Filters;
 
 namespace Snehix.Core.API.Controllers
 {
-    [Route("api/[controller]")]    
+    [CustomException]
+    [ModelValidationAction]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         public string connString { get; set; }
-        public UserController(IConfiguration configuration)
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _configuration;
+        public UserController(
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            IConfiguration configuration
+            )
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _configuration = configuration;
             connString = configuration.GetConnectionString("Default");
         }
+        //public UserController(IConfiguration configuration)
+        //{
+        //    connString = configuration.GetConnectionString("Default");
+        //}
 
         // Post api/User
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserModel model)
         {
-            try
+            var service = new UserRepositoryService(connString);
+            var user = new IdentityUser
             {
-                var service = new UserRepositoryService(connString);
+                UserName = model.Username,
+                Email = model.EmailId
+            };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
                 await service.CreateUser(model);
-                return new ObjectResult("Success");
             }
-            catch (Exception ex)
+            var response = new GenericResponse<string>()
             {
-                return new ObjectResult("Faliure: " + ex.Message);
-            }           
-           
+                IsSuccess = true,
+                Message = "User created successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, UserModel model)
         {
-            try
+            var service = new UserRepositoryService(connString);
+            await service.UpdateUser(model, id);
+            var response = new GenericResponse<string>()
             {
-                var service = new UserRepositoryService(connString);
-                await service.UpdateUser(model,id);
-                return new ObjectResult("Success");
-            }
-            catch (Exception ex)
-            {
-                return new ObjectResult("Faliure: " + ex.Message);
-            }
+                IsSuccess = true,
+                Message = "User updated successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
         }
 
         // GET api/Entity
         [HttpGet]
         public async Task<IActionResult> Get(string username)
         {
-            var result = new DataTable();
+            var result = new List<UserDTO>();
             var service = new UserRepositoryService(connString);
             if (string.IsNullOrEmpty(username))
                 result = await service.GetAllUser();
             else
                 result = await service.GetUseryByUserName(username);
-            return new ObjectResult(result);
+            var response = new GenericResponse<List<UserDTO>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
         }
 
         // GET api/values/5
@@ -74,6 +109,6 @@ namespace Snehix.Core.API.Controllers
             return new ObjectResult(result);
         }
 
-       
+
     }
 }
