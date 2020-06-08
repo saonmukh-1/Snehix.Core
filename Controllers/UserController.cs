@@ -106,7 +106,14 @@ namespace Snehix.Core.API.Controllers
         {
             var service = new UserRepositoryService(connString);
             var result = await service.GetUseryById(id);
-            return new ObjectResult(result);
+            var response = new GenericResponse<List<UserDTO>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
         }
 
 

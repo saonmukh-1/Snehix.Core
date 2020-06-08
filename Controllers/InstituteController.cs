@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Snehix.Core.API.DTO;
 using Snehix.Core.API.Filters;
 using Snehix.Core.API.Models;
 using Snehix.Core.API.Services;
@@ -13,7 +14,7 @@ namespace Snehix.Core.API.Controllers
 {
     [CustomException]
     [ModelValidationAction]
-    [Route("api/[controller]")]    
+    [Route("api/[controller]")]
     public class InstituteController : ControllerBase
     {
 
@@ -29,7 +30,15 @@ namespace Snehix.Core.API.Controllers
         {
             var service = new InstituteRepositoryService(connString);
             var result = await service.GetAllInstitutes();
-            return new ObjectResult(result);
+            var response = new GenericResponse<List<InstituteDTO>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+
         }
 
         // GET api/values/5
@@ -38,39 +47,50 @@ namespace Snehix.Core.API.Controllers
         {
             var service = new InstituteRepositoryService(connString);
             var result = await service.GetInstituteById(id);
-            return new ObjectResult(result);
+            var response = new GenericResponse<List<InstituteDTO>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(InstitutionModel model)
         {
-            try
+
+            var service = new InstituteRepositoryService(connString);
+            model.Actor = "User1";
+            await service.CreateInstitute(model);
+            var response = new GenericResponse<string>()
             {
-                var service = new InstituteRepositoryService(connString);
-                model.Actor = "User1";
-                await service.CreateInstitute(model);
-                return new ObjectResult("Success");
-            }
-            catch (Exception ex)
-            {
-                return new ObjectResult("Faliure: " + ex.Message);
-            }
+                IsSuccess = true,
+                Message = "Institute created successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
+
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, InstitutionModel model)
         {
-            try
+
+            var service = new InstituteRepositoryService(connString);
+            await service.UpdateInstitute(model, id);
+            var response = new GenericResponse<string>()
             {
-                var service = new InstituteRepositoryService(connString);
-                await service.UpdateInstitute(model,id);
-                return new ObjectResult("Success");
-            }
-            catch (Exception ex)
-            {
-                return new ObjectResult("Faliure: " + ex.Message);
-            }
+                IsSuccess = true,
+                Message = "Institute updated successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
+
         }
     }
 }

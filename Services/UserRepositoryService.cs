@@ -39,6 +39,7 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("InstituteIdVal", model.InstituteId);
             else
                 cmd.Parameters.AddWithValue("InstituteIdVal", DBNull.Value);
+            cmd.Parameters.AddWithValue("StudentClassificationIdval", DBNull.Value);
             cmd.Parameters.AddWithValue("usrtypeId", model.UserTypeId);
             cmd.Parameters.AddWithValue("dob", model.DateOfBirth);
             cmd.Parameters.AddWithValue("usrStatusId", model.UserStatusId);
@@ -110,7 +111,7 @@ namespace Snehix.Core.API.Services
                 {
                     var row = new UserDTO();
                     row.UserId = Convert.ToInt32(dr["ID"]);
-                    row.UserName = dr["Name"].ToString();
+                    row.UserName = dr["UserName"].ToString();
                     row.FirstName = dr["FirstName"].ToString();
                     row.LastName = dr["LastName"].ToString();
                     row.MiddleName = dr["MiddleName"].ToString();
@@ -139,7 +140,7 @@ namespace Snehix.Core.API.Services
                 {
                     var row = new UserDTO();
                     row.UserId = Convert.ToInt32(dr["ID"]);
-                    row.UserName = dr["Name"].ToString();
+                    row.UserName = dr["UserName"].ToString();
                     row.FirstName = dr["FirstName"].ToString();
                     row.LastName = dr["LastName"].ToString();
                     row.MiddleName = dr["MiddleName"].ToString();

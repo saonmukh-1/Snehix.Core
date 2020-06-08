@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Snehix.Core.API.DTO;
 using Snehix.Core.API.Models;
 using System;
 using System.Collections.Generic;
@@ -91,31 +92,51 @@ namespace Snehix.Core.API.Services
         }
 
 
-        public async Task<DataTable> GetAllInstitutes()
+        public async Task<List<InstituteDTO>> GetAllInstitutes()
         {
-            DataTable dt = new DataTable();
+            var dt = new List<InstituteDTO>();
             await _connection.OpenAsync();
             using (MySqlCommand cmd = new MySqlCommand("Get_Institutes", _connection))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                var dataReader = cmd.ExecuteReader();
-                dt.Load(dataReader);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new InstituteDTO();
+                    row.Id = Convert.ToInt32(dr["Id"]);
+                    row.Name = dr["Name"].ToString();
+                    row.Description = dr["Description"].ToString();
+                    row.EducationalBoard = dr["EducationalBoard"].ToString();
+                    row.InstitutionType = dr["InstitutionType"].ToString();
+                   
+                    dt.Add(row);
+                }
             }
 
             return dt;
         }
 
-        public async Task<DataTable> GetInstituteById(int Id)
+        public async Task<List<InstituteDTO>> GetInstituteById(int Id)
         {
-            DataTable dt = new DataTable();
+            var dt = new List<InstituteDTO>();
             await _connection.OpenAsync();
             using (MySqlCommand cmd = new MySqlCommand("Get_InstitutesById", _connection))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("InstituteId", Id);
-                var dataReader = cmd.ExecuteReader();
-                dt.Load(dataReader);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new InstituteDTO();
+                    row.Id = Convert.ToInt32(dr["Id"]);
+                    row.Name = dr["Name"].ToString();
+                    row.Description = dr["Description"].ToString();
+                    row.EducationalBoard = dr["EducationalBoard"].ToString();
+                    row.InstitutionType = dr["InstitutionType"].ToString();
+
+                    dt.Add(row);
+                }
             }
 
             return dt;
