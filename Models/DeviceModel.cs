@@ -7,26 +7,25 @@ namespace Snehix.Core.API.Models
 {
     public class DeviceModel
     {
-        
-
-        public string model { get; set; }
-        public string version { get; set; }
-        public string serialNumber { get; set; }
-        public string description { get; set; }
-        public string createdBy { get; set; }
+        public string ModelName { get; set; }
+        public string Version { get; set; }
+        public string SerialNumber { get; set; }
+        public string Description { get; set; }
+        public string CreatedBy { get; set; }
         public int? UserId { get; set; }
-        public DateTime stratdate { get; set; }
+        public DateTime Stratdate { get; set; }
+        public int InstituteId { get; set; }
     }
 
     public class DeviceUpdateModel
     {
 
         public int DeviceId { get; set; }
-        public string model { get; set; }
-        public string version { get; set; }
-        public string serialNumber { get; set; }
-        public string description { get; set; }
-        public string modifiedBy { get; set; }
+        public string Model { get; set; }
+        public string Version { get; set; }
+        public string SerialNumber { get; set; }
+        public string Description { get; set; }
+        public string ModifiedBy { get; set; }
         
     }
 
@@ -34,9 +33,9 @@ namespace Snehix.Core.API.Models
     {
 
         public int DeviceId { get; set; }
-        public string createdBy { get; set; }
+        public string CreatedBy { get; set; }
         public int UserId { get; set; }
-        public DateTime stratdate { get; set; }
+        public DateTime Stratdate { get; set; }
 
     }
 }

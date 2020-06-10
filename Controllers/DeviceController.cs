@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Snehix.Core.API.DTO;
 using Snehix.Core.API.Filters;
 using Snehix.Core.API.Models;
 using Snehix.Core.API.Services;
@@ -27,17 +28,19 @@ namespace Snehix.Core.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(DeviceModel model)
         {
-            try
-            {
+            
                 var service = new DeviceRepositoryService(connString);
-                await service.CreateDevice(model.model, model.version, model.serialNumber,
-                    model.description, "User1", model.UserId, model.stratdate);
-                return new ObjectResult("Success");
-            }
-            catch (Exception ex)
-            {
-                return new ObjectResult("Faliure: " + ex.Message);
-            }
+                await service.CreateDevice(model.ModelName, model.Version, model.SerialNumber,
+                    model.Description, "User1", model.UserId, model.Stratdate,model.InstituteId);
+                var response = new GenericResponse<string>()
+                {
+                    IsSuccess = true,
+                    Message = "Device created successfully.",
+                    ResponseCode = 200,
+                    Result = "Success"
+                };
+                return Ok(response);
+            
 
         }
         // PUT api/values/5
@@ -47,7 +50,7 @@ namespace Snehix.Core.API.Controllers
             try
             {
                 var service = new DeviceRepositoryService(connString);
-                await service.UpdateDevice(id,model.model,model.version,model.serialNumber,model.description,
+                await service.UpdateDevice(id,model.Model,model.Version,model.SerialNumber,model.Description,
                     "user1");
                 return new ObjectResult("Success");
             }
@@ -63,7 +66,7 @@ namespace Snehix.Core.API.Controllers
             try
             {
                 var service = new DeviceRepositoryService(connString);
-                await service.UpdateDeviceUserAssociation(id, model.UserId, "user1",model.stratdate);
+                await service.UpdateDeviceUserAssociation(id, model.UserId, "user1",model.Stratdate);
                 return new ObjectResult("Success");
             }
             catch (Exception ex)
@@ -73,18 +76,48 @@ namespace Snehix.Core.API.Controllers
         }
 
         // GET api/Entity
-        [HttpGet]
-        public async Task<IActionResult> Get(bool? assigned)
+        [HttpGet("Institute/{id}")]
+        public async Task<IActionResult> GetByInstitute(int id)
         {
-            var result = new DataTable();
             var service = new DeviceRepositoryService(connString);
-            if(!assigned.HasValue)
-                result = await service.GetAllActiveDevice();
-            else if(assigned.Value)
-                result = await service.GetAllAssignedDevice();
-            else
-                result = await service.GetAllUnAssignedDevice();
-            return new ObjectResult(result);
+            var result = await service.GetAllDeviceByInstitute(id);
+            var response = new GenericResponse<List<DeviceExtended>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+        [HttpGet("Assigned/{id}")]
+        public async Task<IActionResult> GetAssignedByInstitute(int id)
+        {
+            var service = new DeviceRepositoryService(connString);
+            var result = await service.GetAllAssignedDevice(id);
+            var response = new GenericResponse<List<DeviceExtended>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+
+        [HttpGet("UnAssigned/{id}")]
+        public async Task<IActionResult> GetUnAssignedByInstitute(int id)
+        {
+            var service = new DeviceRepositoryService(connString);
+            var result = await service.GetAllUnAssignedDevice(id);
+            var response = new GenericResponse<List<DeviceExtended>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
         }
 
         // GET api/values/5
@@ -92,8 +125,15 @@ namespace Snehix.Core.API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var service = new DeviceRepositoryService(connString);
-            var result = await service.GetDeviceByDeviceId(id);
-            return new ObjectResult(result);
+            var result = await service.GetAllDeviceById(id);
+            var response = new GenericResponse<List<DeviceExtended>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
         }
     }
 }
