@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,7 @@ namespace Snehix.Core.API.Controllers
 {
     [Route("api/[controller]")]
     [CustomException]
-    [ModelValidationAction]
+    [ModelValidationAction]    
     public class DeviceController : Controller
     {
         public string connString { get; set; }
@@ -25,6 +26,7 @@ namespace Snehix.Core.API.Controllers
         }
 
         // Post api/User
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(DeviceModel model)
         {
@@ -41,6 +43,7 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
         // PUT api/values/5
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, DeviceUpdateModel model)
         {
@@ -57,6 +60,7 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
         // PUT api/values/5
+        [Authorize]
         [HttpPut("Association/{id}")]
         public async Task<IActionResult> Put(int id, DeviceUserAssociationUpdateModel model)
         {
@@ -73,8 +77,9 @@ namespace Snehix.Core.API.Controllers
                 return Ok(response);
             }
 
-        // GET api/Entity
-        [HttpGet("Institute/{id}")]
+        // GET api/Entity    
+        [Authorize]
+        [HttpGet("Institute/{id}")]        
         public async Task<IActionResult> GetByInstitute(int id)
         {
             var service = new DeviceRepositoryService(connString);
@@ -88,6 +93,8 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        [Authorize]
         [HttpGet("Assigned/{id}")]
         public async Task<IActionResult> GetAssignedByInstitute(int id)
         {
@@ -103,6 +110,7 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet("UnAssigned/{id}")]
         public async Task<IActionResult> GetUnAssignedByInstitute(int id)
         {
@@ -119,6 +127,7 @@ namespace Snehix.Core.API.Controllers
         }
 
         // GET api/values/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

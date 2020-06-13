@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,7 @@ namespace Snehix.Core.API.Controllers
 {
     [CustomException]
     [ModelValidationAction]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]    
     public class InstituteController : ControllerBase
     {
 
@@ -25,6 +26,7 @@ namespace Snehix.Core.API.Controllers
         }
 
         // GET api/Entity
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -42,6 +44,7 @@ namespace Snehix.Core.API.Controllers
         }
 
         // GET api/values/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -57,6 +60,7 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post(InstitutionModel model)
         {
@@ -76,6 +80,7 @@ namespace Snehix.Core.API.Controllers
         }
 
         // PUT api/values/5
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, InstitutionModelUpdate model)
         {

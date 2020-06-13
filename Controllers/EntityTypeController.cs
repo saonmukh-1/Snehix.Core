@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,7 @@ namespace Snehix.Core.API.Controllers
 {
     [CustomException]
     [ModelValidationAction]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]    
     public class EntityTypeController : ControllerBase
     {
         public string connString { get; set; }
@@ -24,6 +25,7 @@ namespace Snehix.Core.API.Controllers
         }
 
         // GET api/Entity
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -39,6 +41,7 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post(EntityTypeModel model)
         {

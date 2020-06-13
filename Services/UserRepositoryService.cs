@@ -23,7 +23,7 @@ namespace Snehix.Core.API.Services
             var cmd = new MySqlCommand("Create_User", _connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("usrName", model.Username);
-            cmd.Parameters.AddWithValue("pssWord", model.Password);
+            cmd.Parameters.AddWithValue("pssWord", "XXX-XXX-XXX");
             cmd.Parameters.AddWithValue("frstName", model.FirstName);
             cmd.Parameters.AddWithValue("mdlName", model.MiddleName);
             cmd.Parameters.AddWithValue("lstName", model.LastName);

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Snehix.Core.API.DTO;
 using Snehix.Core.API.Filters;
 
 namespace Snehix.Core.API.Controllers
@@ -38,14 +39,20 @@ namespace Snehix.Core.API.Controllers
         [HttpPost]
         public async Task<object> Login([FromBody] LoginDto model)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-            
+            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
+
             if (result.Succeeded)
             {
-                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                return await GenerateJwtToken(model.Email, appUser);
-            }
-            
+                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Username);
+                var response = new GenericResponse<object>()
+                {
+                    IsSuccess = true,
+                    Message = "Device created successfully.",
+                    ResponseCode = 200,
+                    Result = GenerateJwtToken(model.Username, appUser)
+                };
+                return Ok(response);
+            }            
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
        
@@ -62,7 +69,14 @@ namespace Snehix.Core.API.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return await GenerateJwtToken(model.Email, user);
+                var response = new GenericResponse<string>()
+                {
+                    IsSuccess = true,
+                    Message = "Device created successfully.",
+                    ResponseCode = 200,
+                    Result = "User created successfully."
+                };
+                return Ok(response);
             }
             
             throw new ApplicationException("UNKNOWN_ERROR");
@@ -102,7 +116,7 @@ namespace Snehix.Core.API.Controllers
         public class LoginDto
         {
             [Required]
-            public string Email { get; set; }
+            public string Username { get; set; }
 
             [Required]
             public string Password { get; set; }

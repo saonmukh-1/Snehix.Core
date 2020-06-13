@@ -11,6 +11,7 @@ using Snehix.Core.API.DTO;
 using Snehix.Core.API.Models;
 using Snehix.Core.API.Services;
 using Snehix.Core.API.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Snehix.Core.API.Controllers
 {
@@ -65,7 +66,8 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
         // PUT api/values/5
-        [HttpPut("{id}")]
+        [Authorize]
+        [HttpPut("{id}")]        
         public async Task<IActionResult> Put(int id, UserUpdateModel model)
         {
             var service = new UserRepositoryService(connString);
@@ -81,7 +83,8 @@ namespace Snehix.Core.API.Controllers
         }
 
         // GET api/Entity
-        [HttpGet]
+        [Authorize]
+        [HttpGet]        
         public async Task<IActionResult> Get(string username)
         {
             var result = new List<UserDTO>();
@@ -101,7 +104,8 @@ namespace Snehix.Core.API.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [Authorize]
+        [HttpGet("{id}")]        
         public async Task<IActionResult> Get(int id)
         {
             var service = new UserRepositoryService(connString);
@@ -115,7 +119,5 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
-
-
     }
 }
