@@ -18,9 +18,7 @@ namespace Snehix.Core.API.Models
     }
 
     public class DeviceUpdateModel
-    {
-
-        public int DeviceId { get; set; }
+    {        
         public string Model { get; set; }
         public string Version { get; set; }
         public string SerialNumber { get; set; }
@@ -30,12 +28,9 @@ namespace Snehix.Core.API.Models
     }
 
     public class DeviceUserAssociationUpdateModel
-    {
-
-        public int DeviceId { get; set; }
+    {        
         public string CreatedBy { get; set; }
         public int UserId { get; set; }
         public DateTime Stratdate { get; set; }
-
     }
 }

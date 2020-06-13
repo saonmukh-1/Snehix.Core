@@ -66,7 +66,7 @@ namespace Snehix.Core.API.Controllers
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, UserModel model)
+        public async Task<IActionResult> Put(int id, UserUpdateModel model)
         {
             var service = new UserRepositoryService(connString);
             await service.UpdateUser(model, id);

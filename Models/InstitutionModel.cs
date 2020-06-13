@@ -5,16 +5,20 @@ using System.Threading.Tasks;
 
 namespace Snehix.Core.API.Models
 {
-    public class InstitutionModel
+    public class InstitutionModel: InstitutionModelUpdate
+    {       
+        public Address MailingAddress { get; set; }
+        public Address BillingAddress { get; set; }
+        public Contact ContactDetail { get; set; }        
+    }
+
+    public class InstitutionModelUpdate
     {
         public string Name { get; set; }
         public string BranchName { get; set; }
         public string Description { get; set; }
         public int BoardId { get; set; }
-        public int TypeId { get; set; }
-        public Address MailingAddress { get; set; }
-        public Address BillingAddress { get; set; }
-        public Contact ContactDetail { get; set; }
+        public int TypeId { get; set; }        
         public string Actor { get; set; }
     }
 

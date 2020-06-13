@@ -65,12 +65,12 @@ namespace Snehix.Core.API.Services
             }
         }
 
-        public async Task UpdateInstitute(InstitutionModel model, int ID)
+        public async Task UpdateInstitute(InstitutionModelUpdate model, int ID)
         {
             try
             {
                 await _connection.OpenAsync();
-                var cmd = new MySqlCommand("Update_User", _connection);
+                var cmd = new MySqlCommand("Update_Institute", _connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("instituteId", ID);
                 cmd.Parameters.AddWithValue("InstituteName", model.Name);

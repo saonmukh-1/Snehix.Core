@@ -28,52 +28,50 @@ namespace Snehix.Core.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(DeviceModel model)
         {
-            
-                var service = new DeviceRepositoryService(connString);
-                await service.CreateDevice(model.ModelName, model.Version, model.SerialNumber,
-                    model.Description, "User1", model.UserId, model.Stratdate,model.InstituteId);
-                var response = new GenericResponse<string>()
-                {
-                    IsSuccess = true,
-                    Message = "Device created successfully.",
-                    ResponseCode = 200,
-                    Result = "Success"
-                };
-                return Ok(response);
-            
-
+            var service = new DeviceRepositoryService(connString);
+            await service.CreateDevice(model.ModelName, model.Version, model.SerialNumber,
+                model.Description, "User1", model.UserId, model.Stratdate, model.InstituteId);
+            var response = new GenericResponse<string>()
+            {
+                IsSuccess = true,
+                Message = "Device created successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, DeviceUpdateModel model)
         {
-            try
+            var service = new DeviceRepositoryService(connString);
+            await service.UpdateDevice(id, model.Model, model.Version, model.SerialNumber, model.Description,
+                "user1");
+            var response = new GenericResponse<string>()
             {
-                var service = new DeviceRepositoryService(connString);
-                await service.UpdateDevice(id,model.Model,model.Version,model.SerialNumber,model.Description,
-                    "user1");
-                return new ObjectResult("Success");
-            }
-            catch (Exception ex)
-            {
-                return new ObjectResult("Faliure: " + ex.Message);
-            }
+                IsSuccess = true,
+                Message = "Device updated successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
         }
         // PUT api/values/5
         [HttpPut("Association/{id}")]
         public async Task<IActionResult> Put(int id, DeviceUserAssociationUpdateModel model)
         {
-            try
-            {
+            
                 var service = new DeviceRepositoryService(connString);
-                await service.UpdateDeviceUserAssociation(id, model.UserId, "user1",model.Stratdate);
-                return new ObjectResult("Success");
+                await service.UpdateDeviceUserAssociation(id, model.UserId, "user1", model.Stratdate);
+                var response = new GenericResponse<string>()
+                {
+                    IsSuccess = true,
+                    Message = "DeviceAssociation updated successfully.",
+                    ResponseCode = 200,
+                    Result = "Success"
+                };
+                return Ok(response);
             }
-            catch (Exception ex)
-            {
-                return new ObjectResult("Faliure: " + ex.Message);
-            }
-        }
 
         // GET api/Entity
         [HttpGet("Institute/{id}")]

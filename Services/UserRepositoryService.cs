@@ -49,7 +49,7 @@ namespace Snehix.Core.API.Services
 
         }
 
-        public async Task UpdateUser(UserModel model, int ID)
+        public async Task UpdateUser(UserUpdateModel model, int ID)
         {
 
             await _connection.OpenAsync();
@@ -61,7 +61,10 @@ namespace Snehix.Core.API.Services
             cmd.Parameters.AddWithValue("lstName", model.LastName);
             cmd.Parameters.AddWithValue("ftrName", model.FatherName);
             cmd.Parameters.AddWithValue("mtrName", model.LastName);
-            cmd.Parameters.AddWithValue("grdId", model.GuardianId);
+            if(model.GuardianId.HasValue)
+                cmd.Parameters.AddWithValue("grdId", model.GuardianId);
+            else
+                cmd.Parameters.AddWithValue("grdId", DBNull.Value);
             cmd.Parameters.AddWithValue("usrtypeId", model.UserTypeId);
             cmd.Parameters.AddWithValue("dob", model.DateOfBirth);
             cmd.Parameters.AddWithValue("usrStatusId", model.UserStatusId);
