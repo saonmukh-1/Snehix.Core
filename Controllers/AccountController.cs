@@ -43,11 +43,11 @@ namespace Snehix.Core.API.Controllers
 
             if (result.Succeeded)
             {
-                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Username);
+                var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == model.Username);
                 var response = new GenericResponse<object>()
                 {
                     IsSuccess = true,
-                    Message = "Device created successfully.",
+                    Message = "Signed in successfully.",
                     ResponseCode = 200,
                     Result = GenerateJwtToken(model.Username, appUser)
                 };
