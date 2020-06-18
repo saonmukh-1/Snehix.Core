@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Snehix.Core.API.DTO;
 using Snehix.Core.API.Filters;
+using Snehix.Core.API.Services;
 
 namespace Snehix.Core.API.Controllers
 {
@@ -24,6 +25,7 @@ namespace Snehix.Core.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
+        public string connString { get; set; }
 
         public AccountController(
             UserManager<IdentityUser> userManager,
@@ -34,6 +36,7 @@ namespace Snehix.Core.API.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration =     configuration;
+            connString = configuration.GetConnectionString("Default");
         }
         
         [HttpPost]
@@ -44,12 +47,21 @@ namespace Snehix.Core.API.Controllers
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == model.Username);
-                var response = new GenericResponse<object>()
+                var claims = await _userManager.GetClaimsAsync(appUser);
+                var service = new UserRepositoryService(connString);
+                var  userEntry = await service.GetUseryByUserName(model.Username);
+
+                var response = new GenericResponse<LoginResponse>()
                 {
                     IsSuccess = true,
                     Message = "Signed in successfully.",
                     ResponseCode = 200,
-                    Result = GenerateJwtToken(model.Username, appUser)
+                    Result = new LoginResponse()
+                    {
+                        Jwt = await GenerateJwtToken(model.Username, appUser,claims),
+                        IPAddress = userEntry[0].IPAddress,
+                        IsNewAccount = userEntry[0].IsNewAccount
+                    }
                 };
                 return Ok(response);
             }            
@@ -64,6 +76,7 @@ namespace Snehix.Core.API.Controllers
                 UserName = model.Email, 
                 Email = model.Email
             };
+           // _userManager.AddClaimAsync(user,new Claim("rId",""))
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
@@ -72,7 +85,7 @@ namespace Snehix.Core.API.Controllers
                 var response = new GenericResponse<string>()
                 {
                     IsSuccess = true,
-                    Message = "Device created successfully.",
+                    Message = "User created successfully.",
                     ResponseCode = 200,
                     Result = "User created successfully."
                 };
@@ -89,7 +102,7 @@ namespace Snehix.Core.API.Controllers
             return "Protected area";
         }
         
-        private async Task<object> GenerateJwtToken(string email, IdentityUser user)
+        private async Task<string> GenerateJwtToken(string email, IdentityUser user,IList<Claim> userClaims)
         {
             var claims = new List<Claim>
             {
@@ -97,6 +110,7 @@ namespace Snehix.Core.API.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
+            claims.AddRange(userClaims);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

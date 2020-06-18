@@ -19,5 +19,14 @@ namespace Snehix.Core.API.DTO
         public int UserTypeId { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int UserStatusId { get; set; }
+        public bool IsNewAccount { get; set; }
+        public string IPAddress { get; set; }
+    }
+
+    public class LoginResponse
+    {
+        public string Jwt { get; set; }
+        public bool IsNewAccount { get; set; }
+        public string IPAddress { get; set; }        
     }
 }

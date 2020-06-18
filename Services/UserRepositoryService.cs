@@ -151,6 +151,8 @@ namespace Snehix.Core.API.Services
                     row.UserTypeId = Convert.ToInt32(dr["UserTypeId"]);
                     row.DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"]);
                     row.UserStatusId = Convert.ToInt32(dr["UserStatusId"]);
+                    row.IsNewAccount = Convert.ToBoolean(dr["NewAccount"]);
+                    row.IPAddress = dr["IPAddress"].ToString();
                     dt.Add(row);
                 }
             }
@@ -270,6 +272,17 @@ namespace Snehix.Core.API.Services
                 }
             }
             return dt;
+        }
+
+        public async Task UpdateUserLogin(string UserName, bool IsNewAccount, string IpAddress)
+        {
+            await _connection.OpenAsync();
+            var cmd = new MySqlCommand("Update_UserLogin", _connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("usrName", UserName);
+            cmd.Parameters.AddWithValue("ipAddressVal", IpAddress);
+            cmd.Parameters.AddWithValue("isNewAccount", IsNewAccount);            
+            cmd.ExecuteNonQuery();
         }
     }
 }
