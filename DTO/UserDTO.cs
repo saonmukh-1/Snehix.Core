@@ -25,8 +25,30 @@ namespace Snehix.Core.API.DTO
 
     public class LoginResponse
     {
-        public string Jwt { get; set; }
-        public bool IsNewAccount { get; set; }
-        public string IPAddress { get; set; }        
+        public string Jwt { get; set; }        
+        public int ActionCode { get; set; }
+
+        public void PopulateCode(string ipAddress,bool newAccount,string requestIdAddress)
+        {
+            if(newAccount)
+            {
+                this.ActionCode = (int)ActionResponseCode.NewAccount;
+            }
+            else if(requestIdAddress.Equals(ipAddress))
+            {
+                this.ActionCode = (int)ActionResponseCode.NewDevice;
+            }
+            else
+            {
+                this.ActionCode = (int)ActionResponseCode.Ok;
+            }
+        }
+    }
+
+    public enum ActionResponseCode
+    {
+        Ok=2000,
+        NewAccount =2001,
+        NewDevice=2002
     }
 }

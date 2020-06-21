@@ -55,14 +55,14 @@ namespace Snehix.Core.API.Controllers
                 {
                     IsSuccess = true,
                     Message = "Signed in successfully.",
-                    ResponseCode = 200,
-                    Result = new LoginResponse()
-                    {
-                        Jwt = await GenerateJwtToken(model.Username, appUser,claims),
-                        IPAddress = userEntry[0].IPAddress,
-                        IsNewAccount = userEntry[0].IsNewAccount
-                    }
+                    ResponseCode = 200                    
                 };
+                var res = new LoginResponse()
+                {
+                    Jwt = await GenerateJwtToken(model.Username, appUser, claims)
+                };
+                res.PopulateCode(userEntry[0].IPAddress, userEntry[0].IsNewAccount, model.DeviceIP);
+                response.Result = res;
                 return Ok(response);
             }            
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
@@ -134,6 +134,9 @@ namespace Snehix.Core.API.Controllers
 
             [Required]
             public string Password { get; set; }
+
+            [Required]
+            public string DeviceIP { get; set; }
 
         }
         

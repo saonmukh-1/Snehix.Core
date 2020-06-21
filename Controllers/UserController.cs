@@ -14,6 +14,7 @@ using Snehix.Core.API.Filters;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using Snehix.Core.API.Utility;
 
 namespace Snehix.Core.API.Controllers
 {
@@ -145,13 +146,14 @@ namespace Snehix.Core.API.Controllers
         [HttpPut("UpdateUserLogin")]
         public async Task<IActionResult> UpdateUserLogin(UpdateUserLoginModel model)
         {
-            string value = Request.Headers["Authorization"];
-            value = value.Remove(0, 7);
-            var jwtHandler = new JwtSecurityTokenHandler();
-            var token = jwtHandler.ReadJwtToken(value);
-            var usernameClaim = token.Claims.Where(a=>a.Type=="sub").FirstOrDefault();
+            var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
+            //string value = Request.Headers["Authorization"];
+            //value = value.Remove(0, 7);
+            //var jwtHandler = new JwtSecurityTokenHandler();
+            //var token = jwtHandler.ReadJwtToken(value);
+            //var usernameClaim = token.Claims.Where(a=>a.Type=="sub").FirstOrDefault();
             var service = new UserRepositoryService(connString);
-            await service.UpdateUserLogin(usernameClaim.Value, model.IsNewAccount,model.IPAddress);
+            await service.UpdateUserLogin(username, model.IsNewAccount,model.IPAddress);
             var response = new GenericResponse<string>()
             {
                 IsSuccess = true,
