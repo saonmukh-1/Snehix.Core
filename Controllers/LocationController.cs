@@ -17,12 +17,19 @@ namespace Snehix.Core.API.Controllers
     [ModelValidationAction]
     public class LocationController : Controller
     {
-        public string connString { get; set; }
+        string connString { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public LocationController(IConfiguration configuration)
         {
             connString =  configuration.GetConnectionString("Default");
         }
-        // GET api/Entity
+        /// <summary>
+        /// Get country list
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetCountry")]
         public async Task<IActionResult> GetCountry()
@@ -39,6 +46,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Get states by country id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetStates/{id}")]
         public async Task<IActionResult> GetStates(int id)

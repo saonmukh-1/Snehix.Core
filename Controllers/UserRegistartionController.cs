@@ -14,18 +14,29 @@ using Snehix.Core.API.Services;
 
 namespace Snehix.Core.API.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]")]
     [CustomException]
     [ModelValidationAction]    
     public class UserRegistartionController : ControllerBase
     {
-        public string connString { get; set; }
+        string connString { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public UserRegistartionController(IConfiguration configuration)
         {
             connString = configuration.GetConnectionString("Default");
         }
 
-        // Post api/User
+        /// <summary>
+        /// Create user registration
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(UserRegistrationModel model)
@@ -44,7 +55,12 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
 
         }
-        // PUT api/values/5
+        /// <summary>
+        /// update user registration
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, UserRegistrationUpdateModel model)
@@ -61,7 +77,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
-        // GET api/Entity
+        /// <summary>
+        /// Get user registrion by institute id, if institute id not sent will get all user registration
+        /// </summary>
+        /// <param name="instituteId"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get(int? instituteId)
@@ -82,7 +102,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
-        // GET api/values/5
+        /// <summary>
+        /// Get user registration by user id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

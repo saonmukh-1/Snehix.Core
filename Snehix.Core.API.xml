@@ -1,0 +1,381 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Snehix.Core.API</name>
+    </assembly>
+    <members>
+        <member name="T:Snehix.Core.API.Controllers.AccountController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.AccountController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.AspNetCore.Identity.SignInManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="userManager"></param>
+            <param name="signInManager"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.AccountController.Login(Snehix.Core.API.Controllers.AccountController.LoginDto)">
+            <summary>
+            Login to the system
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.AccountController.Register(Snehix.Core.API.Controllers.AccountController.RegisterDto)">
+            <summary>
+            Register User
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Snehix.Core.API.Controllers.DeviceController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.Create(Snehix.Core.API.Models.DeviceModel)">
+            <summary>
+            Create device
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.Put(System.Int32,Snehix.Core.API.Models.DeviceUpdateModel)">
+            <summary>
+            Update device
+            </summary>
+            <param name="id">id</param>
+            <param name="model">model</param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.Put(System.Int32,Snehix.Core.API.Models.DeviceUserAssociationUpdateModel)">
+            <summary>
+            Update device user association
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.GetByInstitute(System.Int32)">
+            <summary>
+            Get Device by Institute
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.GetAssignedByInstitute(System.Int32)">
+            <summary>
+            Get only assigned device by institute Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.GetUnAssignedByInstitute(System.Int32)">
+            <summary>
+            Get only unassigned device by Institution Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.Get(System.Int32)">
+            <summary>
+            Get device by device id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Snehix.Core.API.Controllers.EntityController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityController.GetAllEntity">
+            <summary>
+            This method will fetch all the Entities exist in the database
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityController.GetAllEntity(Snehix.Core.API.DTO.EntitySearch)">
+            <summary>
+            Get entity by entity type
+            </summary>
+            <param name="entityType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityController.Get(System.Int32)">
+            <summary>
+            Get entity by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityController.Post(Snehix.Core.API.Models.EntityModel)">
+            <summary>
+            Create entity
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityController.Put(System.Int32,Snehix.Core.API.Models.EntityModel)">
+            <summary>
+            Update entity
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityTypeController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityTypeController.Get">
+            <summary>
+            Get all entity type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityTypeController.Post(Snehix.Core.API.Models.EntityTypeModel)">
+            <summary>
+            Create entity type
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.InstituteController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.InstituteController.Get">
+            <summary>
+            Get all institutes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.InstituteController.Get(System.Int32)">
+            <summary>
+            Get institute by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.InstituteController.Post(Snehix.Core.API.Models.InstitutionModel)">
+            <summary>
+            Create institution
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.InstituteController.Put(System.Int32,Snehix.Core.API.Models.InstitutionModelUpdate)">
+            <summary>
+            Update institution
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.LocationController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.LocationController.GetCountry">
+            <summary>
+            Get country list
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.LocationController.GetStates(System.Int32)">
+            <summary>
+            Get states by country id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.StudentClassificationController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.StudentClassificationController.Create(Snehix.Core.API.Models.StudentClassificationModel)">
+            <summary>
+            Create student classification
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.StudentClassificationController.Put(System.Int32,Snehix.Core.API.Models.StudentClassificationModel)">
+            <summary>
+            update student classification
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.StudentClassificationController.GetById(System.Int32)">
+            <summary>
+            Get student classification by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.StudentClassificationController.GetAssignedByInstitute(System.Int32)">
+            <summary>
+            Get student classic=fication by institute
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.StudentClassificationController.Delete(System.Int32)">
+            <summary>
+            Delete student classification
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.AspNetCore.Identity.SignInManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="userManager"></param>
+            <param name="signInManager"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserController.CreateUser(Snehix.Core.API.Models.UserModel)">
+            <summary>
+            Create user
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserController.Put(System.Int32,Snehix.Core.API.Models.UserUpdateModel)">
+            <summary>
+            Update user
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserController.Get(System.String)">
+            <summary>
+            Get user by user name
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserController.Get(System.Int32)">
+            <summary>
+            Get user by user id
+            </summary>
+            <param name="id">User id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserController.UpdateUserLogin(Snehix.Core.API.Models.UpdateUserLoginModel)">
+            <summary>
+            Update user login with device IP and set flag to false for IsNewAccount
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Snehix.Core.API.Controllers.UserRegistartionController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserRegistartionController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserRegistartionController.Create(Snehix.Core.API.Models.UserRegistrationModel)">
+            <summary>
+            Create user registration
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserRegistartionController.Put(System.Int32,Snehix.Core.API.Models.UserRegistrationUpdateModel)">
+            <summary>
+            update user registration
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserRegistartionController.Get(System.Nullable{System.Int32})">
+            <summary>
+            Get user registrion by institute id, if institute id not sent will get all user registration
+            </summary>
+            <param name="instituteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.UserRegistartionController.Get(System.Int32)">
+            <summary>
+            Get user registration by user id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Snehix.Core.API.Models.UserUpdateModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Snehix.Core.API.Models.UserUpdateModel.FirstName">
+            <summary>
+            FirstName
+            </summary>
+        </member>
+        <member name="P:Snehix.Core.API.Models.UserUpdateModel.MiddleName">
+            <summary>
+            MiddleName
+            </summary>
+        </member>
+        <member name="P:Snehix.Core.API.Models.UserUpdateModel.LastName">
+            <summary>
+            LastName
+            </summary>
+        </member>
+        <member name="T:Snehix.Core.API.Models.UserRegistrationModel">
+            <summary>
+            User Registration Model
+            </summary>
+        </member>
+        <member name="P:Snehix.Core.API.Models.UserRegistrationModel.UserId">
+            <summary>
+            User id
+            </summary>
+        </member>
+        <member name="P:Snehix.Core.API.Models.UserRegistrationModel.StartDate">
+            <summary>
+            Start date
+            </summary>
+        </member>
+        <member name="P:Snehix.Core.API.Models.UserRegistrationModel.InstituteId">
+            <summary>
+            Institute id
+            </summary>
+        </member>
+    </members>
+</doc>

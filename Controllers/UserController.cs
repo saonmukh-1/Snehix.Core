@@ -23,10 +23,16 @@ namespace Snehix.Core.API.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        public string connString { get; set; }
+        string connString { get; set; }
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
+        /// <param name="configuration"></param>
         public UserController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
@@ -38,12 +44,12 @@ namespace Snehix.Core.API.Controllers
             _configuration = configuration;
             connString = configuration.GetConnectionString("Default");
         }
-        //public UserController(IConfiguration configuration)
-        //{
-        //    connString = configuration.GetConnectionString("Default");
-        //}
-
-        // Post api/User
+       
+        /// <summary>
+        /// Create user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserModel model)
         {
@@ -86,7 +92,12 @@ namespace Snehix.Core.API.Controllers
             }
             return Ok(response);
         }
-        // PUT api/values/5
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("{id}")]        
         public async Task<IActionResult> Put(int id, UserUpdateModel model)
@@ -103,7 +114,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
-        // GET api/Entity
+        /// <summary>
+        /// Get user by user name
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]        
         public async Task<IActionResult> Get(string username)
@@ -124,7 +139,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
-        // GET api/values/5
+        /// <summary>
+        /// Get user by user id
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]        
         public async Task<IActionResult> Get(int id)
@@ -141,7 +160,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
-
+        /// <summary>
+        /// Update user login with device IP and set flag to false for IsNewAccount
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("UpdateUserLogin")]
         public async Task<IActionResult> UpdateUserLogin(UpdateUserLoginModel model)

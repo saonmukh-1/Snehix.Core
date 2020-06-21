@@ -20,13 +20,21 @@ namespace Snehix.Core.API.Controllers
     [ModelValidationAction]
     public class StudentClassificationController : Controller
     {
-        public string connString { get; set; }
+        string connString { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public StudentClassificationController(IConfiguration configuration)
         {
             connString = configuration.GetConnectionString("Default");
         }
 
-        // Post api/User
+        /// <summary>
+        /// Create student classification
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(StudentClassificationModel model)
@@ -43,7 +51,12 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
-        // PUT api/values/5
+        /// <summary>
+        /// update student classification
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, StudentClassificationModel model)
@@ -60,7 +73,12 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }       
-        // GET api/Entity    
+        
+        /// <summary>
+        /// Get student classification by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -77,6 +95,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Get student classic=fication by institute
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("Institute/{id}")]
         public async Task<IActionResult> GetAssignedByInstitute(int id)
@@ -93,9 +116,14 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Delete student classification
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> GetUnAssignedByInstitute(int id)
+        public async Task<IActionResult> Delete(int id)
         {           
             var service = new StudentClassificationRepository(connString);
             await service.DeleteStudentClassification(id);

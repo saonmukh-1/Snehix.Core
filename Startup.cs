@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,6 +77,16 @@ namespace WebApiJwt
                     Type = SecuritySchemeType.ApiKey
                 });
                 c.OperationFilter<SecurityRequirementsOperationFilter>();
+                c.SwaggerDoc("v1",
+                                new OpenApiInfo
+                                {
+                                    Title = "Snehix.Core.API - V1",
+                                    Version = "v1"
+                                }
+                             );
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Snehix.Core.API.xml");
+                c.IncludeXmlComments(filePath);
             });           
 
         }

@@ -3,6 +3,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-WebApiJwt-9EB56A08-D5EE-4EEF-B339-DEE0A5CA6277</UserSecretsId>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Git\Snehix_API_New\Snehix.Generic.API\Snehix.Core\Snehix.Core.API.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>

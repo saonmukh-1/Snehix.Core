@@ -14,19 +14,29 @@ using Snehix.Core.API.Services;
 namespace Snehix.Core.API.Controllers
 {
    
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]")]
     [CustomException]
     [ModelValidationAction]    
     public class EntityController : Controller
     {
 
-        public string connString { get; set; }
+        string connString { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public EntityController(IConfiguration configuration)
         {
             connString = configuration.GetConnectionString("Default");
         }
 
-        // GET api/Entity
+        /// <summary>
+        /// This method will fetch all the Entities exist in the database
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllEntity()
@@ -62,6 +72,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Get entity by entity type
+        /// </summary>
+        /// <param name="entityType"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         [Route("Search")]
@@ -102,7 +117,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
-        // GET api/values/5
+        /// <summary>
+        /// Get entity by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -119,6 +138,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create entity
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post(EntityModel model)
@@ -135,7 +159,12 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
-        // PUT api/values/5
+        /// <summary>
+        /// Update entity
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, EntityModel model)

@@ -17,6 +17,9 @@ using Snehix.Core.API.Services;
 
 namespace Snehix.Core.API.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("[controller]/[action]")]
     [CustomException]
     [ModelValidationAction]
@@ -25,8 +28,14 @@ namespace Snehix.Core.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
-        public string connString { get; set; }
+        string ConnString { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
+        /// <param name="configuration"></param>
         public AccountController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
@@ -36,9 +45,13 @@ namespace Snehix.Core.API.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration =     configuration;
-            connString = configuration.GetConnectionString("Default");
+            ConnString = configuration.GetConnectionString("Default");
         }
-        
+        /// <summary>
+        /// Login to the system
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<object> Login([FromBody] LoginDto model)
         {
@@ -48,7 +61,7 @@ namespace Snehix.Core.API.Controllers
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == model.Username);
                 var claims = await _userManager.GetClaimsAsync(appUser);
-                var service = new UserRepositoryService(connString);
+                var service = new UserRepositoryService(ConnString);
                 var  userEntry = await service.GetUseryByUserName(model.Username);
 
                 var response = new GenericResponse<LoginResponse>()
@@ -68,6 +81,11 @@ namespace Snehix.Core.API.Controllers
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
        
+        /// <summary>
+        /// Register User
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<object> Register([FromBody] RegisterDto model)
         {
@@ -95,12 +113,7 @@ namespace Snehix.Core.API.Controllers
             throw new ApplicationException("UNKNOWN_ERROR");
         }
         
-        [Authorize]
-        [HttpGet]
-        public async Task<object> Protected()
-        {
-            return "Protected area";
-        }
+        
         
         private async Task<string> GenerateJwtToken(string email, IdentityUser user,IList<Claim> userClaims)
         {

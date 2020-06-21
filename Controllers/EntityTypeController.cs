@@ -18,13 +18,20 @@ namespace Snehix.Core.API.Controllers
     [Route("api/[controller]")]    
     public class EntityTypeController : ControllerBase
     {
-        public string connString { get; set; }
+        string connString { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public EntityTypeController(IConfiguration configuration)
         {
             connString = configuration.GetConnectionString("Default");
         }
 
-        // GET api/Entity
+        /// <summary>
+        /// Get all entity type
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -41,6 +48,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create entity type
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post(EntityTypeModel model)

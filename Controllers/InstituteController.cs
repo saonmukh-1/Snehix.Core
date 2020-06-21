@@ -19,13 +19,20 @@ namespace Snehix.Core.API.Controllers
     public class InstituteController : ControllerBase
     {
 
-        public string connString { get; set; }
+        string connString { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public InstituteController(IConfiguration configuration)
         {
             connString = configuration.GetConnectionString("Default");
         }
 
-        // GET api/Entity
+        /// <summary>
+        /// Get all institutes
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -43,7 +50,11 @@ namespace Snehix.Core.API.Controllers
 
         }
 
-        // GET api/values/5
+        /// <summary>
+        /// Get institute by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -60,6 +71,11 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create institution
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post(InstitutionModel model)
@@ -79,7 +95,12 @@ namespace Snehix.Core.API.Controllers
 
         }
 
-        // PUT api/values/5
+        /// <summary>
+        /// Update institution
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, InstitutionModelUpdate model)

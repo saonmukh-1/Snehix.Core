@@ -34,10 +34,22 @@ namespace Snehix.Core.API.Models
         public int? InstituteId { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserUpdateModel
-    {       
+    {
+        /// <summary>
+        /// FirstName
+        /// </summary>
         public string FirstName { get; set; }
+        /// <summary>
+        /// MiddleName
+        /// </summary>
         public string MiddleName { get; set; }
+        /// <summary>
+        /// LastName
+        /// </summary>
         public string LastName { get; set; }
         public string FatherName { get; set; }
         public string MotherName { get; set; }
@@ -50,10 +62,22 @@ namespace Snehix.Core.API.Models
         public int? InstituteId { get; set; }
     }
 
+    /// <summary>
+    /// User Registration Model
+    /// </summary>
     public class UserRegistrationModel
-    {       
-        public int UserId { get; set; }        
-        public DateTime StartDate { get; set; }        
+    {   
+        /// <summary>
+        /// User id
+        /// </summary>
+        public int UserId { get; set; }
+        /// <summary>
+        /// Start date
+        /// </summary>
+        public DateTime StartDate { get; set; }  
+        /// <summary>
+        /// Institute id
+        /// </summary>
         public int InstituteId { get; set; }
     }
     public class UserRegistrationUpdateModel
