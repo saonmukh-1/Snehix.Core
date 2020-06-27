@@ -211,6 +211,53 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:Snehix.Core.API.Controllers.OptionalGroupController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.OptionalGroupController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.OptionalGroupController.Create(Snehix.Core.API.Models.OptionalGroupModel)">
+            <summary>
+            Create student classification
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.OptionalGroupController.Put(System.Int32,Snehix.Core.API.Models.OptionalGroupUpdateModel)">
+            <summary>
+            update student classification
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.OptionalGroupController.GetById(System.Int32)">
+            <summary>
+            Get student classification by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.OptionalGroupController.GetAssignedByInstitute(System.Int32)">
+            <summary>
+            Get student classic=fication by institute
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.OptionalGroupController.Delete(System.Int32)">
+            <summary>
+            Delete student classification
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Snehix.Core.API.Controllers.StudentClassificationController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             
@@ -337,6 +384,26 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:Snehix.Core.API.DTO.StudentClassification">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Snehix.Core.API.DTO.OptionalGroup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Snehix.Core.API.Models.StudentClassificationModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Snehix.Core.API.Models.OptionalGroupModel">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Snehix.Core.API.Models.UserUpdateModel">
             <summary>
             
@@ -376,6 +443,93 @@
             <summary>
             Institute id
             </summary>
+        </member>
+        <member name="T:Snehix.Core.API.Services.StudentClassificationRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="conString"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.CreateStudentClassification(Snehix.Core.API.Models.StudentClassificationModel,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <param name="actor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.UpdateStudentClassification(System.Int32,Snehix.Core.API.Models.StudentClassificationModel,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <param name="actor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.GetStudentClassificationByInstitute(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="instituteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.GetStudentClassificationById(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.DeleteStudentClassification(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.DeleteGroup(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.GetGroupById(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.GetGroupByInstitute(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="instituteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.CreateGroup(Snehix.Core.API.Models.OptionalGroupModel,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <param name="actor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.StudentClassificationRepository.UpdateGroup(System.Int32,Snehix.Core.API.Models.OptionalGroupUpdateModel,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <param name="actor"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

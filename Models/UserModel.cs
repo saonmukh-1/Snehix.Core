@@ -79,9 +79,20 @@ namespace Snehix.Core.API.Models
         /// Institute id
         /// </summary>
         public int InstituteId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ClassId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int SectionId { get; set; }
     }
     public class UserRegistrationUpdateModel
-    {        
+    {   
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime EndDate { get; set; }        
     }
 

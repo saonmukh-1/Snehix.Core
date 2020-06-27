@@ -8,17 +8,28 @@ using System.Threading.Tasks;
 
 namespace Snehix.Core.API.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserRepositoryService
     {
         MySqlConnection _connection = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="conString"></param>
         public UserRepositoryService(string conString)
         {
             _connection = new MySqlConnection(conString);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task CreateUser(UserModel model)
         {
-
             await _connection.OpenAsync();
             var cmd = new MySqlCommand("Create_User", _connection);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -49,9 +60,14 @@ namespace Snehix.Core.API.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public async Task UpdateUser(UserUpdateModel model, int ID)
         {
-
             await _connection.OpenAsync();
             var cmd = new MySqlCommand("Update_User", _connection);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -73,6 +89,10 @@ namespace Snehix.Core.API.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<UserDTO>> GetAllUser()
         {
             var dt = new List<UserDTO>();
@@ -101,6 +121,11 @@ namespace Snehix.Core.API.Services
             return dt;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<List<UserDTO>> GetUseryById(int userId)
         {
             List<UserDTO> dt = new List<UserDTO>();
@@ -124,12 +149,15 @@ namespace Snehix.Core.API.Services
                     row.UserStatusId = Convert.ToInt32(dr["UserStatusId"]);
                     dt.Add(row);
                 }
-
             }
-
             return dt;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public async Task<List<UserDTO>> GetUseryByUserName(string username)
         {
             List<UserDTO> dt = new List<UserDTO>();
@@ -160,8 +188,18 @@ namespace Snehix.Core.API.Services
             return dt;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="instituteId"></param>
+        /// <param name="actor"></param>
+        /// <param name="startDate"></param>
+        /// <param name="classId"></param>
+        /// <param name="sectionId"></param>
+        /// <returns></returns>
         public async Task CreateUserRegistration(int userId, int instituteId, string actor
-            , DateTime startDate)
+            , DateTime startDate,int classId, int sectionId)
         {
             await _connection.OpenAsync();
             var cmd = new MySqlCommand("Create_Registration", _connection);
@@ -170,13 +208,21 @@ namespace Snehix.Core.API.Services
             cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
             cmd.Parameters.AddWithValue("CreatedByValue", actor);
             cmd.Parameters.AddWithValue("StartDateVal", startDate);
+            cmd.Parameters.AddWithValue("ClassIdVal", classId);
+            cmd.Parameters.AddWithValue("SectionIdVal", sectionId);
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="registrationId"></param>
+        /// <param name="actor"></param>
+        /// <param name="finishDate"></param>
+        /// <returns></returns>
         public async Task TerminateUserRegistration(int registrationId, string actor
             , DateTime finishDate)
         {
-
             await _connection.OpenAsync();
             var cmd = new MySqlCommand("Update_Registration", _connection);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -184,9 +230,13 @@ namespace Snehix.Core.API.Services
             cmd.Parameters.AddWithValue("actor", actor);
             cmd.Parameters.AddWithValue("EndDateVal", finishDate);
             cmd.ExecuteNonQuery();
-
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<List<UserRegistrationDTO>> GetUserRegistrationByUserId(int userId)
         {
             List<UserRegistrationDTO> dt = new List<UserRegistrationDTO>();
@@ -203,7 +253,6 @@ namespace Snehix.Core.API.Services
                     row.Username = dr["Username"].ToString();
                     row.FirstName = dr["FirstName"].ToString();
                     row.LastName = dr["LastName"].ToString();
-
                     row.DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"]);
                     row.StartDate = Convert.ToDateTime(dr["StartDate"]);
                     row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
@@ -212,10 +261,14 @@ namespace Snehix.Core.API.Services
                     dt.Add(row);
                 }
             }
-
             return dt;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instituteId"></param>
+        /// <returns></returns>
         public async Task<List<UserRegistrationDTO>> GetAllUserRegistrationByInstituteId(int instituteId)
         {
             List<UserRegistrationDTO> dt = new List<UserRegistrationDTO>();
@@ -246,6 +299,10 @@ namespace Snehix.Core.API.Services
             return dt;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<UserRegistrationDTO>> GetAllUserRegistration()
         {
             List<UserRegistrationDTO> dt = new List<UserRegistrationDTO>();
@@ -274,6 +331,13 @@ namespace Snehix.Core.API.Services
             return dt;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="IsNewAccount"></param>
+        /// <param name="IpAddress"></param>
+        /// <returns></returns>
         public async Task UpdateUserLogin(string UserName, bool IsNewAccount, string IpAddress)
         {
             await _connection.OpenAsync();
