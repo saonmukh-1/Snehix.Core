@@ -184,7 +184,6 @@ namespace Snehix.Core.API.Services
                     dt.Add(row);
                 }
             }
-
             return dt;
         }
 

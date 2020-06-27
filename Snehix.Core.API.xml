@@ -444,6 +444,21 @@
             Institute id
             </summary>
         </member>
+        <member name="P:Snehix.Core.API.Models.UserRegistrationModel.ClassId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Snehix.Core.API.Models.UserRegistrationModel.SectionId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Snehix.Core.API.Models.UserRegistrationUpdateModel.EndDate">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Snehix.Core.API.Services.StudentClassificationRepository">
             <summary>
             
@@ -529,6 +544,102 @@
             <param name="id"></param>
             <param name="model"></param>
             <param name="actor"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Snehix.Core.API.Services.UserRepositoryService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="conString"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.CreateUser(Snehix.Core.API.Models.UserModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.UpdateUser(Snehix.Core.API.Models.UserUpdateModel,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <param name="ID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.GetAllUser">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.GetUseryById(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.GetUseryByUserName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.CreateUserRegistration(System.Int32,System.Int32,System.String,System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="userId"></param>
+            <param name="instituteId"></param>
+            <param name="actor"></param>
+            <param name="startDate"></param>
+            <param name="classId"></param>
+            <param name="sectionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.TerminateUserRegistration(System.Int32,System.String,System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="registrationId"></param>
+            <param name="actor"></param>
+            <param name="finishDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.GetUserRegistrationByUserId(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.GetAllUserRegistrationByInstituteId(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="instituteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.GetAllUserRegistration">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.UpdateUserLogin(System.String,System.Boolean,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="UserName"></param>
+            <param name="IsNewAccount"></param>
+            <param name="IpAddress"></param>
             <returns></returns>
         </member>
     </members>

@@ -43,7 +43,8 @@ namespace Snehix.Core.API.Controllers
         {
            
             var service = new UserRepositoryService(connString);
-            await service.CreateUserRegistration(model.UserId, model.InstituteId, "User1", model.StartDate);
+            await service.CreateUserRegistration(model.UserId, model.InstituteId, "User1", 
+                model.StartDate,model.ClassId,model.SectionId);
                 
             var response = new GenericResponse<string>()
             {
