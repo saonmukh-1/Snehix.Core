@@ -28,4 +28,17 @@ namespace Snehix.Core.API.Models
         public string Name { get; set; }
         public string Description { get; set; }        
     }
+
+    public class GroupSubscriptionModel
+    {
+        public int Userid { get; set; }
+        public int GroupId { get; set; }
+        public DateTime StartDate { get; set; }
+    }
+
+    public class DeactiveGroupSubscriptionModel
+    {
+        public int SubscriptionId { get; set; }        
+        public DateTime EndDate { get; set; }
+    }
 }

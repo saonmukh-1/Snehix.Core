@@ -29,4 +29,30 @@ namespace Snehix.Core.API.DTO
         public string Description { get; set; }
         
     }
+
+    public class OptionalGroupSubscription
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public int OptionalGroupId { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public int InstituteId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+    }
+
+    public class OptionalGroupSubscriptionUser
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public int OptionalGroupId { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+    }
 }

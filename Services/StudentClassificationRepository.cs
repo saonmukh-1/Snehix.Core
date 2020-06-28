@@ -281,5 +281,152 @@ namespace Snehix.Core.API.Services
                 //await _connection.col
             }
         }
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="actor"></param>
+        /// <returns></returns>
+        public async Task CreateGroupSubscription(GroupSubscriptionModel model, string actor)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+                var cmd = new MySqlCommand("Create_GroupSubscription", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("UserIdVal", model.Userid);
+                cmd.Parameters.AddWithValue("GroupIdVal", model.GroupId);
+                cmd.Parameters.AddWithValue("StartDateVal", model.StartDate);
+                cmd.Parameters.AddWithValue("CreatedByValue", actor);
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                //await _connection.col
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="actor"></param>
+        /// <returns></returns>
+        public async Task DeactiveGroupSubscription(DeactiveGroupSubscriptionModel model, string actor)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+                var cmd = new MySqlCommand("Deactive_GroupSubscription", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("SubscriptionIdVal", model.SubscriptionId);                
+                cmd.Parameters.AddWithValue("EndDateDateVal", model.EndDate);
+                cmd.Parameters.AddWithValue("ModifiedByValue", actor);
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                //await _connection.col
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<OptionalGroupSubscription>> GetSubscriptionByUser(int userId)
+        {
+            List<OptionalGroupSubscription> dt = new List<OptionalGroupSubscription>();
+            await _connection.OpenAsync();
+            using (MySqlCommand cmd = new MySqlCommand("Get_GroupSubscriptionByUser", _connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("UserIdVal", userId);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new OptionalGroupSubscription();
+                    row.Id = Convert.ToInt32(dr["ID"]);
+                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                    row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
+                    row.UserId = Convert.ToInt32(dr["UserId"]);
+                    row.Name = dr["Name"].ToString();
+                    row.Description = dr["Description"].ToString();
+                    row.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                    dt.Add(row);
+                }
+            }
+            return dt;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OptionalGroupId"></param>
+        /// <returns></returns>
+        public async Task<List<OptionalGroupSubscriptionUser>> GetUserLisByGroupSubscription(int OptionalGroupId)
+        {
+            List<OptionalGroupSubscriptionUser> dt = new List<OptionalGroupSubscriptionUser>();
+            await _connection.OpenAsync();
+            using (MySqlCommand cmd = new MySqlCommand("Get_UserLisByGroupSubscription", _connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("OptionalGroupId", OptionalGroupId);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new OptionalGroupSubscriptionUser();
+                    row.Id = Convert.ToInt32(dr["ID"]);
+                    row.UserName = dr["Username"].ToString();
+                    row.UserId = Convert.ToInt32(dr["UserId"]);
+                    row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
+                    row.FirstName = dr["FirstName"].ToString();
+                    row.LastName = dr["LastName"].ToString();
+                    row.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                    dt.Add(row);
+                }
+            }
+            return dt;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="subscriptionId"></param>
+        /// <returns></returns>
+        public async Task<List<OptionalGroupSubscription>> GetGroupSubscriptionById(int subscriptionId)
+        {
+            List<OptionalGroupSubscription> dt = new List<OptionalGroupSubscription>();
+            await _connection.OpenAsync();
+            using (MySqlCommand cmd = new MySqlCommand("Get_GroupSubscriptionById", _connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("GroupSubscriptionId", subscriptionId);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new OptionalGroupSubscription();
+                    row.Id = Convert.ToInt32(dr["ID"]);
+                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                    row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
+                    row.UserId = Convert.ToInt32(dr["UserId"]);
+                    row.Name = dr["Name"].ToString();
+                    row.Description = dr["Description"].ToString();
+                    row.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                    dt.Add(row);
+                }
+            }
+            return dt;
+        }
     }
 }
