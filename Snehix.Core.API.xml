@@ -299,6 +299,40 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Snehix.Core.API.Controllers.PeriodController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.PeriodController.Create(Snehix.Core.API.Models.PeriodModel)">
+            <summary>
+            Create student classification
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.PeriodController.GetByTeacher(Snehix.Core.API.Models.SearchPeriodByTeacherModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.PeriodController.GetByStudent(Snehix.Core.API.Models.SearchPeriodByStudentModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.PeriodController.Delete(System.Int32)">
+            <summary>
+            Delete student classification
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Snehix.Core.API.Controllers.StudentClassificationController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             
@@ -499,6 +533,38 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Services.PeriodRepository.CreatePeriod(Snehix.Core.API.Models.PeriodModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.PeriodRepository.DeletePeriod(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.PeriodRepository.GetAllPeriodByStudent(System.Int32,System.DateTime,System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="studentId"></param>
+            <param name="startDate"></param>
+            <param name="endTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.PeriodRepository.GetAllPeriodByTeacher(System.Int32,System.DateTime,System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="teacherId"></param>
+            <param name="startDate"></param>
+            <param name="endTime"></param>
+            <returns></returns>
         </member>
         <member name="T:Snehix.Core.API.Services.StudentClassificationRepository">
             <summary>
