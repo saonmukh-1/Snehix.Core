@@ -47,9 +47,17 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("grdId", DBNull.Value);
 
             if (model.InstituteId.HasValue)
-                cmd.Parameters.AddWithValue("InstituteIdVal", model.InstituteId);
+                cmd.Parameters.AddWithValue("InstituteIdVal", model.InstituteId.Value);
             else
                 cmd.Parameters.AddWithValue("InstituteIdVal", DBNull.Value);
+            if (model.ClassId.HasValue)
+                cmd.Parameters.AddWithValue("ClassIdVal", model.ClassId.Value);
+            else
+                cmd.Parameters.AddWithValue("ClassIdVal", DBNull.Value);
+            if (model.SectionId.HasValue)
+                cmd.Parameters.AddWithValue("SectionIdVal", model.SectionId.Value);
+            else
+                cmd.Parameters.AddWithValue("SectionIdVal", DBNull.Value);
             cmd.Parameters.AddWithValue("StudentClassificationIdval", DBNull.Value);
             cmd.Parameters.AddWithValue("usrtypeId", model.UserTypeId);
             cmd.Parameters.AddWithValue("dob", model.DateOfBirth);

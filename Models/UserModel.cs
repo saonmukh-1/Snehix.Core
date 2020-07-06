@@ -32,6 +32,8 @@ namespace Snehix.Core.API.Models
         public int UserStatusId { get; set; }
         public string Actor { get; set; }
         public int? InstituteId { get; set; }
+        public int? SectionId { get; set; }
+        public int? ClassId { get; set; }
     }
 
     /// <summary>
