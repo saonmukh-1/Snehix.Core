@@ -31,6 +31,25 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:Snehix.Core.API.Controllers.AmazonController.CreateIAM(Snehix.Core.API.Models.IAMModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.AmazonController.ListIIM">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.AmazonController.DeleteIIM(System.String)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Snehix.Core.API.Controllers.DeviceController">
             <summary>
             
@@ -44,7 +63,7 @@
         </member>
         <member name="M:Snehix.Core.API.Controllers.DeviceController.Create(Snehix.Core.API.Models.DeviceModel)">
             <summary>
-            Create device
+            Create device into the system
             </summary>
             <param name="model"></param>
             <returns></returns>
@@ -533,6 +552,58 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="F:Snehix.Core.API.Services.AmazonIAMService.AWSAccessKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Snehix.Core.API.Services.AmazonIAMService.AWSSecurityKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Services.AmazonIAMService.CreateIAMUser(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+            <param name="userName"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Services.AmazonIAMService.ListUsers">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.AmazonIAMService.DeleteUser(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="userName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Snehix.Core.API.Services.AmazonS3Service">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Snehix.Core.API.Services.AmazonS3Service.AWSAccessKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Snehix.Core.API.Services.AmazonS3Service.AWSSecurityKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Services.AmazonS3Service.CreateBucketToS3(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="bucketName"></param>
+            <returns></returns>
         </member>
         <member name="M:Snehix.Core.API.Services.PeriodRepository.CreatePeriod(Snehix.Core.API.Models.PeriodModel)">
             <summary>

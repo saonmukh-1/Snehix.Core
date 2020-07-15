@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -64,8 +65,8 @@ namespace WebApiJwt
                 });
 
             // ===== Add MVC ========
-            services.AddMvc();
-
+            services.AddMvc();            
+            
             services.AddSwaggerGen(c =>
             {
                 //c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });

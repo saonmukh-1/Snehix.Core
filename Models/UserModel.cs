@@ -103,4 +103,16 @@ namespace Snehix.Core.API.Models
         public bool IsNewAccount { get; set; }
         public string IPAddress { get; set; }
     }
+
+    public class IAMModel
+    {
+        public string BucketName { get; set; }
+        public string UserName { get; set; }
+        
+    }
+    public class BucketModel
+    {
+        public string Name { get; set; }
+        
+    }
 }

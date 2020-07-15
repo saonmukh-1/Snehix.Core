@@ -33,7 +33,7 @@ namespace Snehix.Core.API.Controllers
         }
 
         /// <summary>
-        /// Create device
+        /// Create device into the system
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
