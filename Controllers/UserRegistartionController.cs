@@ -126,7 +126,7 @@ namespace Snehix.Core.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("createamazonaccount/{id}")]
+        [HttpPost("createamazonaccount/{id}")]
         public async Task<IActionResult> CreateAmazonAccount(int id)
         {
             var actor = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
