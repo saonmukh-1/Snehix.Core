@@ -4,6 +4,7 @@ using Snehix.Core.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Snehix.Core.API.Services
@@ -355,5 +356,53 @@ namespace Snehix.Core.API.Services
             cmd.Parameters.AddWithValue("isNewAccount", IsNewAccount);            
             cmd.ExecuteNonQuery();
         }
+
+        public async Task CreateUserAmazonAccount(UserAmazonAccount model)
+        {           
+            await _connection.OpenAsync();
+            var cmd = new MySqlCommand("Create_UserAmazonAccount", _connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("UserIdVal", model.UserId);
+            cmd.Parameters.AddWithValue("BucketNameVal", model.BucketName);
+            cmd.Parameters.AddWithValue("AccessKeyVal", model.AccessKey);
+            cmd.Parameters.AddWithValue("SecretKeyVal", model.SecretKey);
+            cmd.Parameters.AddWithValue("IamUserNameVal", model.IamUsername);
+            cmd.Parameters.AddWithValue("BuckePathVal", model.BucketPath);
+            cmd.Parameters.AddWithValue("Actor", model.Actor);            
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<InstituteAmazonRegistrationDetail> GetInstituteAmazonAccountDetail(int userId)
+        {
+            List<InstituteAmazonRegistrationDetail> dt = new List<InstituteAmazonRegistrationDetail>();
+            await _connection.OpenAsync();
+
+            using (MySqlCommand cmd = new MySqlCommand("Get_InstituteAmazonAccountByUser", _connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("userIdVal", userId);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new InstituteAmazonRegistrationDetail();
+                    row.UserId = Convert.ToInt32(dr["UserId"]);                    
+                    row.BucketName = dr["BucketName"].ToString();
+                    row.AccessKey = dr["AccessKey"].ToString();                   
+                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                    row.SecretKey = dr["SecretKey"].ToString();
+                    row.IamUserName = dr["IamUserName"].ToString();
+                    row.UserName = dr["Username"].ToString();
+                    dt.Add(row);
+                }
+            }
+            return dt.FirstOrDefault();
+            
+        }
+
     }
 }

@@ -45,7 +45,7 @@ namespace Snehix.Core.API.Services
                         BucketRegion= S3Region.APS3
                     };
                 await client.PutBucketAsync(uploadRequest);
-                await CreateFolder(bucketName, "newfolder"); 
+                //await CreateFolder(bucketName, "newfolder"); 
                 
             }
         }

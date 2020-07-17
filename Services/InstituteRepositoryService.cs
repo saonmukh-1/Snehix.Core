@@ -17,8 +17,9 @@ namespace Snehix.Core.API.Services
             _connection = new MySqlConnection(conString);
         }
 
-        public async Task CreateInstitute(InstitutionModel model)
+        public async Task<int> CreateInstitute(InstitutionModel model)
         {
+            int result = 0;
             try
             {
                 await _connection.OpenAsync();
@@ -53,7 +54,12 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("AltMobNumber", model.ContactDetail.AltMobileNumber);
                 cmd.Parameters.AddWithValue("Email", model.ContactDetail.EmailId);
                 cmd.Parameters.AddWithValue("AltEmail", model.ContactDetail.AltEmailId);
-                cmd.ExecuteNonQuery();
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    result = Convert.ToInt32(dr["InstituteId"]);                   
+                }
+                return result;
             }
             catch
             {
@@ -141,6 +147,31 @@ namespace Snehix.Core.API.Services
 
             return dt;
         }
-       
+
+        public async Task CreateInstituteAmazonAccount(InstituteAmazonAccount model)
+        {            
+            try
+            {
+                await _connection.OpenAsync();
+                var cmd = new MySqlCommand("Create_InstituteAmazonAccount", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("InstituteIdVal", model.InstituteId);
+                cmd.Parameters.AddWithValue("BucketNameVal", model.BucketName);
+                cmd.Parameters.AddWithValue("AccessKeyVal", model.AccessKey);
+                cmd.Parameters.AddWithValue("SecretKeyVal", model.SecretKey);
+                cmd.Parameters.AddWithValue("IamUserNameVal", model.IamUsername);
+                cmd.Parameters.AddWithValue("Actor", model.Actor);  
+                var dr = cmd.ExecuteNonQuery();                
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                //await _connection.col
+            }
+        }
+
     }
 }

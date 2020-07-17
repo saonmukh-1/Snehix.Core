@@ -1,5 +1,6 @@
 ﻿using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
+using Snehix.Core.API.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Snehix.Core.API.Services
         /// </summary>
         /// <param name="path"></param>
         /// <param name="userName"></param>
-        public async Task CreateIAMUser(string path, string userName)
+        public async Task<AmazonAccountInfo> CreateIAMUser(string path, string userName)
         {
             var client = new AmazonIdentityManagementServiceClient(AWSAccessKey, AWSSecurityKey);
             var request = new CreateUserRequest
@@ -47,8 +48,12 @@ namespace Snehix.Core.API.Services
                     // Use the user created in the CreateUser example
                     UserName = userName
                 });
-                
-
+                var result = new AmazonAccountInfo()
+                {
+                    AccessKey = accessKey.AccessKey.AccessKeyId,
+                    SecurityKey = accessKey.AccessKey.SecretAccessKey
+                };
+                return result;
             }
             catch (EntityAlreadyExistsException)
             {

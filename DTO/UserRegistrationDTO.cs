@@ -18,4 +18,15 @@ namespace Snehix.Core.API.DTO
         public string BranchName { get; set; }
         public DateTime StartDate { get; set; }
     }
+
+    public class InstituteAmazonRegistrationDetail
+    {
+        public int UserId { get; set; }
+        public int InstituteId { get; set; }
+        public string BucketName { get; set; }
+        public string AccessKey { get; set; }       
+        public string SecretKey { get; set; }
+        public string IamUserName { get; set; }        
+        public string UserName { get; set; }
+    }
 }

@@ -252,6 +252,13 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:Snehix.Core.API.Controllers.InstituteController.CreateAmazonAccount(System.Int32)">
+            <summary>
+            create cloud account 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Snehix.Core.API.Controllers.LocationController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             
@@ -855,6 +862,13 @@
             <param name="UserName"></param>
             <param name="IsNewAccount"></param>
             <param name="IpAddress"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Services.UserRepositoryService.GetInstituteAmazonAccountDetail(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="userId"></param>
             <returns></returns>
         </member>
     </members>

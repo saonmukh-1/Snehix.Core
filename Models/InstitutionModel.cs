@@ -9,7 +9,8 @@ namespace Snehix.Core.API.Models
     {       
         public Address MailingAddress { get; set; }
         public Address BillingAddress { get; set; }
-        public Contact ContactDetail { get; set; }        
+        public Contact ContactDetail { get; set; }  
+        public bool CloudAccountRequired { get; set; }
     }
 
     public class InstitutionModelUpdate
@@ -42,5 +43,26 @@ namespace Snehix.Core.API.Models
         public string AltMobileNumber { get; set; }
         public string EmailId{ get; set; }
         public string AltEmailId { get; set; }
+    }
+
+    public class InstituteAmazonAccount
+    {
+        public int InstituteId { get; set; }
+        public string BucketName { get; set; }
+        public string AccessKey { get; set; }
+        public string SecretKey { get; set; }
+        public string IamUsername { get; set; }
+        public string Actor { get; set; }
+    }
+
+    public class UserAmazonAccount
+    {
+        public int UserId { get; set; }
+        public string BucketName { get; set; }
+        public string AccessKey { get; set; }
+        public string SecretKey { get; set; }
+        public string IamUsername { get; set; }
+        public string BucketPath { get; set; }
+        public string Actor { get; set; }
     }
 }
