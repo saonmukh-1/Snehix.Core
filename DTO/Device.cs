@@ -17,6 +17,10 @@ namespace Snehix.Core.API.DTO
     {
         public int? UserId { get; set; }
         public string UserName { get; set; }
+        public int? InstituteId { get; set; }
+        public string InstituteName { get; set; }
+        public int? UserTypeId { get; set; }
+        public string UserType { get; set; }
     }
 
     public class Period

@@ -182,5 +182,26 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        /// <summary>
+        /// Get all devices detail list
+        /// </summary>
+        /// <param name="id">institute id</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("getalldevice/{id}")]
+        public async Task<IActionResult> GetDeviceByInstitute(int id)
+        {
+            var service = new DeviceRepositoryService(connString);
+            var result = await service.GetAllDetailDeviceByInstitute(id);
+            var response = new GenericResponse<List<DeviceExtended>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
     }
 }

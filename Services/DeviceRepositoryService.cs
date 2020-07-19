@@ -221,19 +221,37 @@ namespace Snehix.Core.API.Services
             return dt;
         }
 
-        //public async Task<DataTable> GetDeviceByDeviceId(int deviceId)
-        //{
-        //    DataTable dt = new DataTable();
-        //    await _connection.OpenAsync();
-        //    using (MySqlCommand cmd = new MySqlCommand("Get_DeviceByDeviceId", _connection))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("DeviceIdval", deviceId);
-        //        var dataReader = cmd.ExecuteReader();
-        //        dt.Load(dataReader);
-        //    }
+        public async Task<List<DeviceExtended>> GetAllDetailDeviceByInstitute(int instituteId)
+        {
+            var dt = new List<DeviceExtended>();
+            await _connection.OpenAsync();
+            using (MySqlCommand cmd = new MySqlCommand("Get_AllDeviceByInstitute", _connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var row = new DeviceExtended();
+                    row.Id = Convert.ToInt32(dr["deviceId"]);
+                    row.Model = dr["Model"].ToString();
+                    row.Description = dr["Description"].ToString();
+                    row.SerialNumber = dr["SerialNumber"].ToString();
+                    row.Version = dr["Version"].ToString();
+                    if (int.TryParse(dr["userId"].ToString(), out int userId))
+                        row.UserId = userId;
+                    row.UserName = dr["Username"].ToString();
+                    if (int.TryParse(dr["InstituteId"].ToString(), out int InstituteId))
+                        row.InstituteId = InstituteId;
+                    row.InstituteName = dr["InstituteName"].ToString();
+                    if (int.TryParse(dr["UserTypeId"].ToString(), out int UserTypeId))
+                        row.UserTypeId = UserTypeId;
+                    row.UserType = dr["UserType"].ToString();
+                    dt.Add(row);
+                }
+            }
 
-        //    return dt;
-        //}
+            return dt;
+        }
     }
 }

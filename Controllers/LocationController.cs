@@ -66,5 +66,21 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("GetAllStatesDetails")]
+        public async Task<IActionResult> GetAllStatesDetails()
+        {
+            var service = new EntityRepositoryService(connString);
+            var result = await service.GetAllStatesCountry();
+            var response = new GenericResponse<List<NestedCountry>>()
+            {
+                IsSuccess = true,
+                Message = "Data Fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
     }
 }

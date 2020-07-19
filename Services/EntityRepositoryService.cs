@@ -262,5 +262,55 @@ namespace Snehix.Core.API.Services
                 throw;
             }
         }
+
+        public async Task<List<NestedCountry>> GetAllStatesCountry()
+        {
+            try
+            {
+                List<NestedCountry> finalList = new List<NestedCountry>();
+                List<StateCountry> dt = new List<StateCountry>();
+                await _connection.OpenAsync();
+                
+                    using (MySqlCommand cmd = new MySqlCommand("Get_AllStateCountry", _connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        var dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            var row = new StateCountry();
+                            row.StateId = Convert.ToInt32(dr["StateId"]);
+                            row.StateName = dr["StateName"].ToString();
+                            row.CountryId = Convert.ToInt32(dr["CountryId"]);
+                            row.CountryShortName = dr["ShortName"].ToString();
+                            row.CountryName = dr["CountryName"].ToString();
+                            dt.Add(row);
+                        }
+                    }
+                var distictCountry = dt.Select(a => a.CountryId).Distinct().ToList();
+                foreach(int item in distictCountry)
+                {
+                    var stateList = dt.Where(a => a.CountryId == item).ToList();
+                    var finalListElement = new NestedCountry()
+                    {
+                        Id = item,
+                        Name = stateList[0].CountryName,
+                        ShortName = stateList[0].CountryShortName
+                    };
+                    finalListElement.States = new List<InternalState>();
+                    foreach (var state in stateList)
+                    {
+                        finalListElement.States.Add(new InternalState()
+                        { Id = state.StateId, Name = state.StateName });
+                    }
+                    finalList.Add(finalListElement);
+                }
+                return finalList;
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

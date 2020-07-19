@@ -112,6 +112,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.GetDeviceByInstitute(System.Int32)">
+            <summary>
+            Get all devices detail list
+            </summary>
+            <param name="id">institute id</param>
+            <returns></returns>
+        </member>
         <member name="T:Snehix.Core.API.Controllers.EntityController">
             <summary>
             
