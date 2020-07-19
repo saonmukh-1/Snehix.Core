@@ -244,6 +244,7 @@ namespace Snehix.Core.API.Services
                     if (int.TryParse(dr["InstituteId"].ToString(), out int InstituteId))
                         row.InstituteId = InstituteId;
                     row.InstituteName = dr["InstituteName"].ToString();
+                    row.UserFullName = dr["UserFullName"].ToString();
                     if (int.TryParse(dr["UserTypeId"].ToString(), out int UserTypeId))
                         row.UserTypeId = UserTypeId;
                     row.UserType = dr["UserType"].ToString();
@@ -252,6 +253,48 @@ namespace Snehix.Core.API.Services
             }
 
             return dt;
+        }
+
+        public async Task<DeviceDetails> GetAllDetailDeviceBySerialNumber(string serialNumber)
+        {
+            var row = new DeviceDetails();
+            await _connection.OpenAsync();
+            using (MySqlCommand cmd = new MySqlCommand("Get_DeviceDetailBySerialNumber", _connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("SerialNumberVal", serialNumber);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    
+                    row.Id = Convert.ToInt32(dr["deviceId"]);
+                    row.Model = dr["Model"].ToString();
+                    row.Description = dr["Description"].ToString();
+                    row.SerialNumber = dr["SerialNumber"].ToString();
+                    row.Version = dr["Version"].ToString();
+                    if (int.TryParse(dr["userId"].ToString(), out int userId))
+                        row.UserId = userId;
+                    row.UserName = dr["Username"].ToString();
+                    if (int.TryParse(dr["InstituteId"].ToString(), out int InstituteId))
+                        row.InstituteId = InstituteId;
+                    row.InstituteName = dr["InstituteName"].ToString();
+                    row.UserFullName = dr["UserFullName"].ToString();
+                    if (int.TryParse(dr["UserTypeId"].ToString(), out int UserTypeId))
+                        row.UserTypeId = UserTypeId;
+                    row.UserType = dr["UserType"].ToString();
+                    row.BucketName = dr["BucketName"].ToString();
+                    row.InstituteAccessKey = dr["InstituteAccessKey"].ToString();
+                    row.InstituteSecretKey = dr["InstituteSecretKey"].ToString();
+                    row.InstituteIamUserName = dr["InstituteIamUserName"].ToString();
+                    row.BucketPath = dr["BucketPath"].ToString();
+                    row.UserAccessKey = dr["UserAccessKey"].ToString();
+                    row.UserSecretKey = dr["UserSecretKey"].ToString();
+                    row.UserIamUserName = dr["UserIamUserName"].ToString();
+                    //dt.Add(row);
+                }
+            }
+
+            return row;
         }
     }
 }

@@ -203,5 +203,26 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="slnumber"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("getdevicebyserialnumber/{slnumber}")]
+        public async Task<IActionResult> GetDeviceDetailBySerialNumber(string slnumber)
+        {
+            var service = new DeviceRepositoryService(connString);
+            var result = await service.GetAllDetailDeviceBySerialNumber(slnumber);
+            var response = new GenericResponse<DeviceDetails>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
     }
 }

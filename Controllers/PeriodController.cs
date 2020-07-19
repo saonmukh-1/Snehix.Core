@@ -54,12 +54,12 @@ namespace Snehix.Core.API.Controllers
        
 
         /// <summary>
-        /// 
+        /// routine for teacher
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("Teacher/{id}")]
+        [HttpGet("teacher")]
         public async Task<IActionResult> GetByTeacher(SearchPeriodByTeacherModel model)
         {
             var service = new PeriodRepository(connString);
@@ -73,14 +73,35 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+        /// <summary>
+        /// next period for teacher
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("teachernextperiod/{id}")]
+        public async Task<IActionResult> GetByTeacherNext( int id)
+        {
+            var service = new PeriodRepository(connString);
+            var result = await service.GetAllPeriodByTeacher(id, DateTime.Today, DateTime.Today.AddDays(1));
+            var res = result.Where(a => a.StartDateTime > DateTime.Now).OrderBy(a => a.StartDateTime).FirstOrDefault();
+            var response = new GenericResponse<Period>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = res
+            };
+            return Ok(response);
+        }
 
         /// <summary>
-        /// 
+        /// Routine for student
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("Student/{id}")]
+        [HttpGet("student")]
         public async Task<IActionResult> GetByStudent(SearchPeriodByStudentModel model)
         {
             var service = new PeriodRepository(connString);
@@ -91,6 +112,27 @@ namespace Snehix.Core.API.Controllers
                 Message = "Data fetched successfully.",
                 ResponseCode = 200,
                 Result = result
+            };
+            return Ok(response);
+        }
+        /// <summary>
+        /// Next period for a student
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("studentnextperiod/{id}")]
+        public async Task<IActionResult> GetByStudentNext(int id)
+        {
+            var service = new PeriodRepository(connString);
+            var result = await service.GetAllPeriodByStudent(id, DateTime.Today, DateTime.Today.AddDays(1));
+            var res = result.Where(a => a.StartDateTime > DateTime.Now).OrderBy(a => a.StartDateTime).FirstOrDefault();
+            var response = new GenericResponse<Period>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = res
             };
             return Ok(response);
         }

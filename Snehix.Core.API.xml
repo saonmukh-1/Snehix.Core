@@ -119,6 +119,13 @@
             <param name="id">institute id</param>
             <returns></returns>
         </member>
+        <member name="M:Snehix.Core.API.Controllers.DeviceController.GetDeviceDetailBySerialNumber(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="slnumber"></param>
+            <returns></returns>
+        </member>
         <member name="T:Snehix.Core.API.Controllers.EntityController">
             <summary>
             
@@ -347,16 +354,30 @@
         </member>
         <member name="M:Snehix.Core.API.Controllers.PeriodController.GetByTeacher(Snehix.Core.API.Models.SearchPeriodByTeacherModel)">
             <summary>
-            
+            routine for teacher
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:Snehix.Core.API.Controllers.PeriodController.GetByTeacherNext(System.Int32)">
+            <summary>
+            next period for teacher
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Snehix.Core.API.Controllers.PeriodController.GetByStudent(Snehix.Core.API.Models.SearchPeriodByStudentModel)">
             <summary>
-            
+            Routine for student
             </summary>
             <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.PeriodController.GetByStudentNext(System.Int32)">
+            <summary>
+            Next period for a student
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Snehix.Core.API.Controllers.PeriodController.Delete(System.Int32)">

@@ -21,7 +21,23 @@ namespace Snehix.Core.API.DTO
         public string InstituteName { get; set; }
         public int? UserTypeId { get; set; }
         public string UserType { get; set; }
+        public string UserFullName { get; set; }
+
     }
+
+    public class DeviceDetails : DeviceExtended
+    {
+        public string BucketName { get; set; }
+        public string InstituteAccessKey { get; set; }
+        public string InstituteSecretKey { get; set; }
+        public string InstituteIamUserName { get; set; }
+        public string BucketPath { get; set; }
+        public string UserAccessKey { get; set; }
+        public string UserSecretKey { get; set; }
+        public string UserIamUserName { get; set; }
+    }
+
+
 
     public class Period
     {
