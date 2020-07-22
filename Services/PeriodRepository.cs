@@ -45,14 +45,8 @@ namespace Snehix.Core.API.Services
                 
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -70,14 +64,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("PeriodIdVal", id);                
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         
@@ -92,42 +80,47 @@ namespace Snehix.Core.API.Services
         {
             List<Period> dt = new List<Period>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_RoutineForStudent", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("StudentIdVal", studentId);
-                cmd.Parameters.AddWithValue("StartDateVal", startDate);
-                cmd.Parameters.AddWithValue("EndDateVal", endTime);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_RoutineForStudent", _connection))
                 {
-                    var row = new Period();
-                    row.PeriodId = Convert.ToInt32(dr["PeriodId"]);
-                    row.SubjectId = Convert.ToInt32(dr["SubjectId"]);
-                    row.SectionId = Convert.ToInt32(dr["SectionId"]);
-                    row.ClassId = Convert.ToInt32(dr["ClassId"]);
-                    row.StudentId = Convert.ToInt32(dr["StudentId"]);
-                    row.TeacherId = Convert.ToInt32(dr["TeacherId"]);
-                    row.TeacherUserName = dr["TeacherUserName"].ToString();
-                    row.TeacherFirstName = dr["TeacherFirstName"].ToString();
-                    row.TeacherLastName = dr["TeacherLastName"].ToString();
-                    row.SubjectName = dr["SubjectName"].ToString();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("StudentIdVal", studentId);
+                    cmd.Parameters.AddWithValue("StartDateVal", startDate);
+                    cmd.Parameters.AddWithValue("EndDateVal", endTime);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new Period();
+                        row.PeriodId = Convert.ToInt32(dr["PeriodId"]);
+                        row.SubjectId = Convert.ToInt32(dr["SubjectId"]);
+                        row.SectionId = Convert.ToInt32(dr["SectionId"]);
+                        row.ClassId = Convert.ToInt32(dr["ClassId"]);
+                        row.StudentId = Convert.ToInt32(dr["StudentId"]);
+                        row.TeacherId = Convert.ToInt32(dr["TeacherId"]);
+                        row.TeacherUserName = dr["TeacherUserName"].ToString();
+                        row.TeacherFirstName = dr["TeacherFirstName"].ToString();
+                        row.TeacherLastName = dr["TeacherLastName"].ToString();
+                        row.SubjectName = dr["SubjectName"].ToString();
 
-                    row.Description = dr["Description"].ToString();
-                    row.ClassName = dr["ClassName"].ToString();
-                    row.SectionName = dr["SectionName"].ToString();
-                    row.StudentUserName = dr["StudentUserName"].ToString();
-                    row.StudentLastName = dr["StudentLastName"].ToString();
-                    row.StudentFirstName = dr["StudentFirstName"].ToString();
-                    row.OptionalGroupName = dr["OptionalGroupName"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.ClassName = dr["ClassName"].ToString();
+                        row.SectionName = dr["SectionName"].ToString();
+                        row.StudentUserName = dr["StudentUserName"].ToString();
+                        row.StudentLastName = dr["StudentLastName"].ToString();
+                        row.StudentFirstName = dr["StudentFirstName"].ToString();
+                        row.OptionalGroupName = dr["OptionalGroupName"].ToString();
 
-                    row.StartDateTime = Convert.ToDateTime(dr["StartTime"]);
-                    row.EndDateTime = Convert.ToDateTime(dr["EndTime"]);
+                        row.StartDateTime = Convert.ToDateTime(dr["StartTime"]);
+                        row.EndDateTime = Convert.ToDateTime(dr["EndTime"]);
 
-                    dt.Add(row);
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -141,42 +134,47 @@ namespace Snehix.Core.API.Services
         {
             List<Period> dt = new List<Period>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_RoutineForTeacher", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("TeacherIdVal", teacherId);
-                cmd.Parameters.AddWithValue("StartDateVal", startDate);
-                cmd.Parameters.AddWithValue("EndDateVal", endTime);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_RoutineForTeacher", _connection))
                 {
-                    var row = new Period();
-                    row.PeriodId = Convert.ToInt32(dr["PeriodId"]);
-                    row.SubjectId = Convert.ToInt32(dr["SubjectId"]);
-                    row.SectionId = Convert.ToInt32(dr["SectionId"]);
-                    row.ClassId = Convert.ToInt32(dr["ClassId"]);
-                    row.StudentId = Convert.ToInt32(dr["StudentId"]);
-                    row.TeacherId = Convert.ToInt32(dr["TeacherId"]);
-                    row.TeacherUserName = dr["TeacherUserName"].ToString();
-                    row.TeacherFirstName = dr["TeacherFirstName"].ToString();
-                    row.TeacherLastName = dr["TeacherLastName"].ToString();
-                    row.SubjectName = dr["SubjectName"].ToString();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("TeacherIdVal", teacherId);
+                    cmd.Parameters.AddWithValue("StartDateVal", startDate);
+                    cmd.Parameters.AddWithValue("EndDateVal", endTime);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new Period();
+                        row.PeriodId = Convert.ToInt32(dr["PeriodId"]);
+                        row.SubjectId = Convert.ToInt32(dr["SubjectId"]);
+                        row.SectionId = Convert.ToInt32(dr["SectionId"]);
+                        row.ClassId = Convert.ToInt32(dr["ClassId"]);
+                        row.StudentId = Convert.ToInt32(dr["StudentId"]);
+                        row.TeacherId = Convert.ToInt32(dr["TeacherId"]);
+                        row.TeacherUserName = dr["TeacherUserName"].ToString();
+                        row.TeacherFirstName = dr["TeacherFirstName"].ToString();
+                        row.TeacherLastName = dr["TeacherLastName"].ToString();
+                        row.SubjectName = dr["SubjectName"].ToString();
 
-                    row.Description = dr["Description"].ToString();
-                    row.ClassName = dr["ClassName"].ToString();
-                    row.SectionName = dr["SectionName"].ToString();
-                    row.StudentUserName = dr["StudentUserName"].ToString();
-                    row.StudentLastName = dr["StudentLastName"].ToString();
-                    row.StudentFirstName = dr["StudentFirstName"].ToString();
-                    row.OptionalGroupName = dr["OptionalGroupName"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.ClassName = dr["ClassName"].ToString();
+                        row.SectionName = dr["SectionName"].ToString();
+                        row.StudentUserName = dr["StudentUserName"].ToString();
+                        row.StudentLastName = dr["StudentLastName"].ToString();
+                        row.StudentFirstName = dr["StudentFirstName"].ToString();
+                        row.OptionalGroupName = dr["OptionalGroupName"].ToString();
 
-                    row.StartDateTime = Convert.ToDateTime(dr["StartTime"]);
-                    row.EndDateTime = Convert.ToDateTime(dr["EndTime"]);
+                        row.StartDateTime = Convert.ToDateTime(dr["StartTime"]);
+                        row.EndDateTime = Convert.ToDateTime(dr["EndTime"]);
 
-                    dt.Add(row);
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
     }
 }

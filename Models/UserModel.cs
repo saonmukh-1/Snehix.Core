@@ -11,7 +11,7 @@ namespace Snehix.Core.API.Models
         [Required]
         public string Username { get; set; }
         [Required]
-        public string Password  { get; set; }
+        public string Password { get; set; }
         [Required]
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -68,7 +68,7 @@ namespace Snehix.Core.API.Models
     /// User Registration Model
     /// </summary>
     public class UserRegistrationModel
-    {   
+    {
         /// <summary>
         /// User id
         /// </summary>
@@ -76,7 +76,7 @@ namespace Snehix.Core.API.Models
         /// <summary>
         /// Start date
         /// </summary>
-        public DateTime StartDate { get; set; }  
+        public DateTime StartDate { get; set; }
         /// <summary>
         /// Institute id
         /// </summary>
@@ -91,15 +91,15 @@ namespace Snehix.Core.API.Models
         public int SectionId { get; set; }
     }
     public class UserRegistrationUpdateModel
-    {   
+    {
         /// <summary>
         /// 
         /// </summary>
-        public DateTime EndDate { get; set; }        
+        public DateTime EndDate { get; set; }
     }
 
     public class UpdateUserLoginModel
-    {        
+    {
         public bool IsNewAccount { get; set; }
         public string IPAddress { get; set; }
     }
@@ -108,7 +108,7 @@ namespace Snehix.Core.API.Models
     {
         public string BucketName { get; set; }
         public string UserName { get; set; }
-        
+
     }
 
     public class UserSearch
@@ -121,6 +121,61 @@ namespace Snehix.Core.API.Models
     public class BucketModel
     {
         public string Name { get; set; }
-        
+
+    }
+    public class EbookModel
+    {
+        public int PublisherId { get; set; }
+        public string PublisherDescription { get; set; }
+        public string Title { get; set; }
+        public string Height { get; set; }
+        public string Width { get; set; }
+        public string Breadth { get; set; }
+        public string DotInInch { get; set; }
+        public string Author { get; set; }
+        public string ISDN { get; set; }
+        public string ContactName { get; set; }
+
+        public string Edition { get; set; }
+        public int Year { get; set; }
+        public bool FreeOfCost { get; set; }
+        public int SubjectId { get; set; }
+        public int ClassId { get; set; }
+        //  public int InstituteId { get; set; }
+    }
+    public class PublisherModel
+    {
+        public Address MailingAddress { get; set; }
+        public Contact ContactDetail { get; set; }
+        public string PublisherName { get; set; }
+        public string ContactNameVal { get; set; }
+        public string PublisherDescription { get; set; }
+        public bool CloudAccountRequired { get; set; }
+    }
+
+    public class PublisherAssociationModel
+    {
+        public int PublisherId { get; set; }
+        public int InstituteId { get; set; }
+    }
+
+    public class PublisherUserAssociationModel
+    {
+        public int PublisherId { get; set; }
+        public int UserId { get; set; }
+    }
+
+    public class PublisherUpdateModel
+    {
+        public int PublisherId { get; set; }
+        public string PublisherDescription { get; set; }
+        public string ContactName { get; set; }
+        public string Height { get; set; }
+        public string Width { get; set; }
+        public string Breadth { get; set; }
+        public string DotInInch { get; set; }
+        public string Author { get; set; }
+        public string ISDN { get; set; }
+
     }
 }

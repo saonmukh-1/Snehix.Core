@@ -67,7 +67,7 @@ namespace Snehix.Core.API.Services
             }
             finally
             {
-                //await _connection.col
+               await _connection.CloseAsync();
             }
         }
 
@@ -87,14 +87,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("ModifiedBy", model.Actor);               
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
 
@@ -102,50 +96,60 @@ namespace Snehix.Core.API.Services
         {
             var dt = new List<InstituteDTO>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_Institutes", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_Institutes", _connection))
                 {
-                    var row = new InstituteDTO();
-                    row.Id = Convert.ToInt32(dr["Id"]);
-                    row.Name = dr["Name"].ToString();
-                    row.Description = dr["Description"].ToString();
-                    row.EducationalBoard = dr["EducationalBoard"].ToString();
-                    row.InstitutionType = dr["InstitutionType"].ToString();
-                   
-                    dt.Add(row);
-                }
-            }
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-            return dt;
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new InstituteDTO();
+                        row.Id = Convert.ToInt32(dr["Id"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.EducationalBoard = dr["EducationalBoard"].ToString();
+                        row.InstitutionType = dr["InstitutionType"].ToString();
+
+                        dt.Add(row);
+                    }
+                }
+
+                return dt;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         public async Task<List<InstituteDTO>> GetInstituteById(int Id)
         {
             var dt = new List<InstituteDTO>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_InstitutesById", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("InstituteId", Id);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_InstitutesById", _connection))
                 {
-                    var row = new InstituteDTO();
-                    row.Id = Convert.ToInt32(dr["Id"]);
-                    row.Name = dr["Name"].ToString();
-                    row.Description = dr["Description"].ToString();
-                    row.EducationalBoard = dr["EducationalBoard"].ToString();
-                    row.InstitutionType = dr["InstitutionType"].ToString();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("InstituteId", Id);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new InstituteDTO();
+                        row.Id = Convert.ToInt32(dr["Id"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.EducationalBoard = dr["EducationalBoard"].ToString();
+                        row.InstitutionType = dr["InstitutionType"].ToString();
 
-                    dt.Add(row);
+                        dt.Add(row);
+                    }
                 }
-            }
 
-            return dt;
+                return dt;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         public async Task CreateInstituteAmazonAccount(InstituteAmazonAccount model)
@@ -163,14 +167,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("Actor", model.Actor);  
                 var dr = cmd.ExecuteNonQuery();                
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
     }

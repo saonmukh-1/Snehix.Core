@@ -55,6 +55,16 @@ namespace Snehix.Core.API.Models
         public string Actor { get; set; }
     }
 
+    public class PublisherAmazonAccount
+    {
+        public int PublisherId { get; set; }
+        public string BucketName { get; set; }
+        public string AccessKey { get; set; }
+        public string SecretKey { get; set; }
+        public string IamUsername { get; set; }
+        public string Actor { get; set; }
+    }
+
     public class UserAmazonAccount
     {
         public int UserId { get; set; }

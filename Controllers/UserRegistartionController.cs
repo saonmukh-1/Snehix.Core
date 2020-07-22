@@ -134,10 +134,11 @@ namespace Snehix.Core.API.Controllers
             var instituteAmazonAccInfo = await service.GetInstituteAmazonAccountDetail(id);
             var amazons3Service = new AmazonS3Service();
             var accname = instituteAmazonAccInfo.UserName.ToLower();
-            await amazons3Service.CreateFolder(instituteAmazonAccInfo.BucketName, accname);
+            await amazons3Service.CreateFolder(instituteAmazonAccInfo.BucketName, accname, 
+                instituteAmazonAccInfo.AccessKey,instituteAmazonAccInfo.SecretKey);
             var amazoniamService = new AmazonIAMService();
             var iamacc = accname + Guid.NewGuid().ToString().ToLower();
-            var path = instituteAmazonAccInfo.BucketName + "/" + instituteAmazonAccInfo.UserName.ToLower();
+            var path = "/"+instituteAmazonAccInfo.BucketName + "/" + instituteAmazonAccInfo.UserName.ToLower()+"/";
             var amazonaccount = await amazoniamService.CreateIAMUser(path, iamacc);
             var model = new UserAmazonAccount()
             {

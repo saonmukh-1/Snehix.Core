@@ -43,7 +43,7 @@ namespace Snehix.Core.API.Services
             }
             finally
             {
-                //await _connection.col
+                await _connection.CloseAsync();
             }
         }
 
@@ -69,7 +69,7 @@ namespace Snehix.Core.API.Services
             }
             finally
             {
-                //await _connection.col
+                await _connection.CloseAsync();
             }
         }
 
@@ -92,7 +92,7 @@ namespace Snehix.Core.API.Services
             }
             finally
             {
-                //await _connection.col
+                await _connection.CloseAsync();
             }
         }
        
@@ -100,101 +100,142 @@ namespace Snehix.Core.API.Services
         {
             List<Device> dt = new List<Device>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_AllActiveDevice", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_AllActiveDevice", _connection))
                 {
-                    var row = new Device();
-                    row.Id = Convert.ToInt32(dr["Id"]);
-                    row.Model = dr["Model"].ToString();
-                    row.Description = dr["description"].ToString();
-                    row.SerialNumber = dr["SerialNumber"].ToString();
-                    row.Version = dr["Version"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new Device();
+                        row.Id = Convert.ToInt32(dr["Id"]);
+                        row.Model = dr["Model"].ToString();
+                        row.Description = dr["description"].ToString();
+                        row.SerialNumber = dr["SerialNumber"].ToString();
+                        row.Version = dr["Version"].ToString();
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<List<DeviceExtended>> GetAllDeviceByInstitute(int instituteId)
         {
             List<DeviceExtended> dt = new List<DeviceExtended>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("GetAll_DeviceByInstitute", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("GetAll_DeviceByInstitute", _connection))
                 {
-                    var row = new DeviceExtended();
-                    row.Id = Convert.ToInt32(dr["ID"]);
-                    row.Model = dr["Model"].ToString();
-                    row.Description = dr["description"].ToString();
-                    row.SerialNumber = dr["SerialNumber"].ToString();
-                    row.Version = dr["Version"].ToString();
-                    if(dr["userId"]!=null && dr["userId"]!=DBNull.Value)
-                        row.UserId = Convert.ToInt32(dr["userId"]);
-                    row.UserName= dr["Username"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new DeviceExtended();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.Model = dr["Model"].ToString();
+                        row.Description = dr["description"].ToString();
+                        row.SerialNumber = dr["SerialNumber"].ToString();
+                        row.Version = dr["Version"].ToString();
+                        if (dr["userId"] != null && dr["userId"] != DBNull.Value)
+                            row.UserId = Convert.ToInt32(dr["userId"]);
+                        row.UserName = dr["Username"].ToString();
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<List<DeviceExtended>> GetAllDeviceById(int deviceId)
         {
             List<DeviceExtended> dt = new List<DeviceExtended>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_DeviceById", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("DeviceIdVal", deviceId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_DeviceById", _connection))
                 {
-                    var row = new DeviceExtended();
-                    row.Id = Convert.ToInt32(dr["Id"]);
-                    row.Model = dr["Model"].ToString();
-                    row.Description = dr["description"].ToString();
-                    row.SerialNumber = dr["SerialNumber"].ToString();
-                    row.Version = dr["Version"].ToString();
-                    if (dr["userId"] != null)
-                        row.UserId = Convert.ToInt32(dr["userId"]);
-                    row.UserName = dr["Username"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("DeviceIdVal", deviceId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new DeviceExtended();
+                        row.Id = Convert.ToInt32(dr["Id"]);
+                        row.Model = dr["Model"].ToString();
+                        row.Description = dr["description"].ToString();
+                        row.SerialNumber = dr["SerialNumber"].ToString();
+                        row.Version = dr["Version"].ToString();
+                        if (dr["userId"] != null)
+                            row.UserId = Convert.ToInt32(dr["userId"]);
+                        row.UserName = dr["Username"].ToString();
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<List<DeviceExtended>> GetAllAssignedDevice(int instituteId)
         {
             var dt = new List<DeviceExtended>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_AllAssignedDevice", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("instituteIdVal", instituteId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_AllAssignedDevice", _connection))
                 {
-                    var row = new DeviceExtended();
-                    row.Id = Convert.ToInt32(dr["Id"]);
-                    row.Model = dr["Model"].ToString();
-                    row.Description = dr["description"].ToString();
-                    row.SerialNumber = dr["SerialNumber"].ToString();
-                    row.Version = dr["Version"].ToString();
-                    if (dr["userId"] != null)
-                        row.UserId = Convert.ToInt32(dr["userId"]);
-                    row.UserName = dr["Username"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("instituteIdVal", instituteId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new DeviceExtended();
+                        row.Id = Convert.ToInt32(dr["Id"]);
+                        row.Model = dr["Model"].ToString();
+                        row.Description = dr["description"].ToString();
+                        row.SerialNumber = dr["SerialNumber"].ToString();
+                        row.Version = dr["Version"].ToString();
+                        if (dr["userId"] != null)
+                            row.UserId = Convert.ToInt32(dr["userId"]);
+                        row.UserName = dr["Username"].ToString();
+                        dt.Add(row);
+                    }
                 }
-            }
 
-            return dt;
+                return dt;
+            }
+            catch { throw; }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
         
 
@@ -202,99 +243,132 @@ namespace Snehix.Core.API.Services
         {
             var dt = new List<DeviceExtended>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_AllUnAssignedDevice", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("instituteIdVal", instituteId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_AllUnAssignedDevice", _connection))
                 {
-                    var row = new DeviceExtended();
-                    row.Id = Convert.ToInt32(dr["Id"]);
-                    row.Model = dr["Model"].ToString();
-                    row.Description = dr["description"].ToString();
-                    row.SerialNumber = dr["SerialNumber"].ToString();
-                    row.Version = dr["Version"].ToString();                    
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("instituteIdVal", instituteId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new DeviceExtended();
+                        row.Id = Convert.ToInt32(dr["Id"]);
+                        row.Model = dr["Model"].ToString();
+                        row.Description = dr["description"].ToString();
+                        row.SerialNumber = dr["SerialNumber"].ToString();
+                        row.Version = dr["Version"].ToString();
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<List<DeviceExtended>> GetAllDetailDeviceByInstitute(int instituteId)
         {
             var dt = new List<DeviceExtended>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_AllDeviceByInstitute", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_AllDeviceByInstitute", _connection))
                 {
-                    var row = new DeviceExtended();
-                    row.Id = Convert.ToInt32(dr["deviceId"]);
-                    row.Model = dr["Model"].ToString();
-                    row.Description = dr["Description"].ToString();
-                    row.SerialNumber = dr["SerialNumber"].ToString();
-                    row.Version = dr["Version"].ToString();
-                    if (int.TryParse(dr["userId"].ToString(), out int userId))
-                        row.UserId = userId;
-                    row.UserName = dr["Username"].ToString();
-                    if (int.TryParse(dr["InstituteId"].ToString(), out int InstituteId))
-                        row.InstituteId = InstituteId;
-                    row.InstituteName = dr["InstituteName"].ToString();
-                    row.UserFullName = dr["UserFullName"].ToString();
-                    if (int.TryParse(dr["UserTypeId"].ToString(), out int UserTypeId))
-                        row.UserTypeId = UserTypeId;
-                    row.UserType = dr["UserType"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new DeviceExtended();
+                        row.Id = Convert.ToInt32(dr["deviceId"]);
+                        row.Model = dr["Model"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.SerialNumber = dr["SerialNumber"].ToString();
+                        row.Version = dr["Version"].ToString();
+                        if (int.TryParse(dr["userId"].ToString(), out int userId))
+                            row.UserId = userId;
+                        row.UserName = dr["Username"].ToString();
+                        if (int.TryParse(dr["InstituteId"].ToString(), out int InstituteId))
+                            row.InstituteId = InstituteId;
+                        row.InstituteName = dr["InstituteName"].ToString();
+                        row.UserFullName = dr["UserFullName"].ToString();
+                        if (int.TryParse(dr["UserTypeId"].ToString(), out int UserTypeId))
+                            row.UserTypeId = UserTypeId;
+                        row.UserType = dr["UserType"].ToString();
+                        dt.Add(row);
+                    }
                 }
-            }
 
-            return dt;
+                return dt;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<DeviceDetails> GetAllDetailDeviceBySerialNumber(string serialNumber)
         {
             var row = new DeviceDetails();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_DeviceDetailBySerialNumber", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("SerialNumberVal", serialNumber);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_DeviceDetailBySerialNumber", _connection))
                 {
-                    
-                    row.Id = Convert.ToInt32(dr["deviceId"]);
-                    row.Model = dr["Model"].ToString();
-                    row.Description = dr["Description"].ToString();
-                    row.SerialNumber = dr["SerialNumber"].ToString();
-                    row.Version = dr["Version"].ToString();
-                    if (int.TryParse(dr["userId"].ToString(), out int userId))
-                        row.UserId = userId;
-                    row.UserName = dr["Username"].ToString();
-                    if (int.TryParse(dr["InstituteId"].ToString(), out int InstituteId))
-                        row.InstituteId = InstituteId;
-                    row.InstituteName = dr["InstituteName"].ToString();
-                    row.UserFullName = dr["UserFullName"].ToString();
-                    if (int.TryParse(dr["UserTypeId"].ToString(), out int UserTypeId))
-                        row.UserTypeId = UserTypeId;
-                    row.UserType = dr["UserType"].ToString();
-                    row.BucketName = dr["BucketName"].ToString();
-                    row.InstituteAccessKey = dr["InstituteAccessKey"].ToString();
-                    row.InstituteSecretKey = dr["InstituteSecretKey"].ToString();
-                    row.InstituteIamUserName = dr["InstituteIamUserName"].ToString();
-                    row.BucketPath = dr["BucketPath"].ToString();
-                    row.UserAccessKey = dr["UserAccessKey"].ToString();
-                    row.UserSecretKey = dr["UserSecretKey"].ToString();
-                    row.UserIamUserName = dr["UserIamUserName"].ToString();
-                    //dt.Add(row);
-                }
-            }
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("SerialNumberVal", serialNumber);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
 
-            return row;
+                        row.Id = Convert.ToInt32(dr["deviceId"]);
+                        row.Model = dr["Model"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.SerialNumber = dr["SerialNumber"].ToString();
+                        row.Version = dr["Version"].ToString();
+                        if (int.TryParse(dr["userId"].ToString(), out int userId))
+                            row.UserId = userId;
+                        row.UserName = dr["Username"].ToString();
+                        if (int.TryParse(dr["InstituteId"].ToString(), out int InstituteId))
+                            row.InstituteId = InstituteId;
+                        row.InstituteName = dr["InstituteName"].ToString();
+                        row.UserFullName = dr["UserFullName"].ToString();
+                        if (int.TryParse(dr["UserTypeId"].ToString(), out int UserTypeId))
+                            row.UserTypeId = UserTypeId;
+                        row.UserType = dr["UserType"].ToString();
+                        row.BucketName = dr["BucketName"].ToString();
+                        row.InstituteAccessKey = dr["InstituteAccessKey"].ToString();
+                        row.InstituteSecretKey = dr["InstituteSecretKey"].ToString();
+                        row.InstituteIamUserName = dr["InstituteIamUserName"].ToString();
+                        row.BucketPath = dr["BucketPath"].ToString();
+                        row.UserAccessKey = dr["UserAccessKey"].ToString();
+                        row.UserSecretKey = dr["UserSecretKey"].ToString();
+                        row.UserIamUserName = dr["UserIamUserName"].ToString();
+                        //dt.Add(row);
+                    }
+                }
+
+                return row;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
     }
 }

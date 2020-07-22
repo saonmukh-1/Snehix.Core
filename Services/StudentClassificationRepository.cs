@@ -43,14 +43,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("CreatedByValue", actor);               
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -73,14 +67,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("UpdatedByVal", actor);              
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
        /// <summary>
@@ -92,24 +80,29 @@ namespace Snehix.Core.API.Services
         {
             List<StudentClassification> dt = new List<StudentClassification>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_StudentClarificationByInstituteId", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_StudentClarificationByInstituteId", _connection))
                 {
-                    var row = new StudentClassification();
-                    row.Id = Convert.ToInt32(dr["ID"]);
-                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
-                    row.ClassId = Convert.ToInt32(dr["ClassId"]);
-                    row.SectionId = Convert.ToInt32(dr["SectionId"]);
-                    row.ClassName = dr["ClassName"].ToString();
-                    row.SectionName = dr["SectionName"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new StudentClassification();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                        row.ClassId = Convert.ToInt32(dr["ClassId"]);
+                        row.SectionId = Convert.ToInt32(dr["SectionId"]);
+                        row.ClassName = dr["ClassName"].ToString();
+                        row.SectionName = dr["SectionName"].ToString();
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -121,24 +114,29 @@ namespace Snehix.Core.API.Services
         {
             List<StudentClassification> dt = new List<StudentClassification>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_StudentClarificationById", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("StudentAssociationId", id);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_StudentClarificationById", _connection))
                 {
-                    var row = new StudentClassification();
-                    row.Id = Convert.ToInt32(dr["ID"]);
-                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
-                    row.ClassId = Convert.ToInt32(dr["ClassId"]);
-                    row.SectionId = Convert.ToInt32(dr["SectionId"]);
-                    row.ClassName = dr["ClassName"].ToString();
-                    row.SectionName = dr["SectionName"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("StudentAssociationId", id);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new StudentClassification();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                        row.ClassId = Convert.ToInt32(dr["ClassId"]);
+                        row.SectionId = Convert.ToInt32(dr["SectionId"]);
+                        row.ClassName = dr["ClassName"].ToString();
+                        row.SectionName = dr["SectionName"].ToString();
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -149,10 +147,15 @@ namespace Snehix.Core.API.Services
         public async Task DeleteStudentClassification(int id)
         {
             await _connection.OpenAsync();
-            var cmd = new MySqlCommand("Delete_StudentClassification", _connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("StudentClassificationIdVal", id);            
-            cmd.ExecuteNonQuery();
+            try
+            {
+                var cmd = new MySqlCommand("Delete_StudentClassification", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("StudentClassificationIdVal", id);
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -163,10 +166,15 @@ namespace Snehix.Core.API.Services
         public async Task DeleteGroup(int id)
         {
             await _connection.OpenAsync();
-            var cmd = new MySqlCommand("Delete_OptionalGroup", _connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("GroupId", id);
-            cmd.ExecuteNonQuery();
+            try
+            {
+                var cmd = new MySqlCommand("Delete_OptionalGroup", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("GroupId", id);
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -177,23 +185,28 @@ namespace Snehix.Core.API.Services
         public async Task<List<OptionalGroup>> GetGroupById(int id)
         {
             List<OptionalGroup> dt = new List<OptionalGroup>();
-            await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_GroupById", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("GroupIdVal", id);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                await _connection.OpenAsync();
+                using (MySqlCommand cmd = new MySqlCommand("Get_GroupById", _connection))
                 {
-                    var row = new OptionalGroup();
-                    row.Id = Convert.ToInt32(dr["ID"]);
-                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
-                    row.Name = dr["Name"].ToString();
-                    row.Description = dr["Description"].ToString();                    
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("GroupIdVal", id);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new OptionalGroup();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -204,23 +217,28 @@ namespace Snehix.Core.API.Services
         public async Task<List<OptionalGroup>> GetGroupByInstitute(int instituteId)
         {
             List<OptionalGroup> dt = new List<OptionalGroup>();
-            await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("GetAll_GroupByInstitute", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                await _connection.OpenAsync();
+                using (MySqlCommand cmd = new MySqlCommand("GetAll_GroupByInstitute", _connection))
                 {
-                    var row = new OptionalGroup();
-                    row.Id = Convert.ToInt32(dr["ID"]);
-                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
-                    row.Name = dr["Name"].ToString();
-                    row.Description = dr["Description"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new OptionalGroup();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -242,14 +260,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("CreatedByValue", actor);
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -272,14 +284,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("ModifiedByValue", actor);
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
        
         /// <summary>
@@ -301,14 +307,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("CreatedByValue", actor);
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -329,14 +329,8 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("ModifiedByValue", actor);
                 cmd.ExecuteNonQuery();
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //await _connection.col
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -347,26 +341,31 @@ namespace Snehix.Core.API.Services
         public async Task<List<OptionalGroupSubscription>> GetSubscriptionByUser(int userId)
         {
             List<OptionalGroupSubscription> dt = new List<OptionalGroupSubscription>();
-            await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_GroupSubscriptionByUser", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("UserIdVal", userId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                await _connection.OpenAsync();
+                using (MySqlCommand cmd = new MySqlCommand("Get_GroupSubscriptionByUser", _connection))
                 {
-                    var row = new OptionalGroupSubscription();
-                    row.Id = Convert.ToInt32(dr["ID"]);
-                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
-                    row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
-                    row.UserId = Convert.ToInt32(dr["UserId"]);
-                    row.Name = dr["Name"].ToString();
-                    row.Description = dr["Description"].ToString();
-                    row.StartDate = Convert.ToDateTime(dr["StartDate"]);
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("UserIdVal", userId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new OptionalGroupSubscription();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                        row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
+                        row.UserId = Convert.ToInt32(dr["UserId"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -377,26 +376,31 @@ namespace Snehix.Core.API.Services
         public async Task<List<OptionalGroupSubscriptionUser>> GetUserLisByGroupSubscription(int OptionalGroupId)
         {
             List<OptionalGroupSubscriptionUser> dt = new List<OptionalGroupSubscriptionUser>();
-            await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_UserLisByGroupSubscription", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("OptionalGroupId", OptionalGroupId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                await _connection.OpenAsync();
+                using (MySqlCommand cmd = new MySqlCommand("Get_UserLisByGroupSubscription", _connection))
                 {
-                    var row = new OptionalGroupSubscriptionUser();
-                    row.Id = Convert.ToInt32(dr["ID"]);
-                    row.UserName = dr["Username"].ToString();
-                    row.UserId = Convert.ToInt32(dr["UserId"]);
-                    row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
-                    row.FirstName = dr["FirstName"].ToString();
-                    row.LastName = dr["LastName"].ToString();
-                    row.StartDate = Convert.ToDateTime(dr["StartDate"]);
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("OptionalGroupId", OptionalGroupId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new OptionalGroupSubscriptionUser();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.UserName = dr["Username"].ToString();
+                        row.UserId = Convert.ToInt32(dr["UserId"]);
+                        row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
+                        row.FirstName = dr["FirstName"].ToString();
+                        row.LastName = dr["LastName"].ToString();
+                        row.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         /// <summary>
@@ -407,26 +411,31 @@ namespace Snehix.Core.API.Services
         public async Task<List<OptionalGroupSubscription>> GetGroupSubscriptionById(int subscriptionId)
         {
             List<OptionalGroupSubscription> dt = new List<OptionalGroupSubscription>();
-            await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_GroupSubscriptionById", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("GroupSubscriptionId", subscriptionId);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                await _connection.OpenAsync();
+                using (MySqlCommand cmd = new MySqlCommand("Get_GroupSubscriptionById", _connection))
                 {
-                    var row = new OptionalGroupSubscription();
-                    row.Id = Convert.ToInt32(dr["ID"]);
-                    row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
-                    row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
-                    row.UserId = Convert.ToInt32(dr["UserId"]);
-                    row.Name = dr["Name"].ToString();
-                    row.Description = dr["Description"].ToString();
-                    row.StartDate = Convert.ToDateTime(dr["StartDate"]);
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("GroupSubscriptionId", subscriptionId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new OptionalGroupSubscription();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.InstituteId = Convert.ToInt32(dr["InstituteId"]);
+                        row.OptionalGroupId = Convert.ToInt32(dr["OptionalGroupId"]);
+                        row.UserId = Convert.ToInt32(dr["UserId"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                        dt.Add(row);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
     }
 }

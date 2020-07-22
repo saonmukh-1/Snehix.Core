@@ -50,9 +50,9 @@ namespace Snehix.Core.API.Services
             }
         }
 
-        public async Task CreateFolder(string bucketName, string folderName)
+        public async Task CreateFolder(string bucketName, string folderName,string awsAccessKey,string awsSecretKey)
         {
-            var client = new AmazonS3Client(AWSAccessKey, AWSSecurityKey, RegionEndpoint.USEast1);
+            var client = new AmazonS3Client(awsAccessKey, awsSecretKey, RegionEndpoint.APSouth1);
             var folderKey = folderName + "/"; //end the folder name with "/"
             var request = new Amazon.S3.Model.PutObjectRequest()
             {

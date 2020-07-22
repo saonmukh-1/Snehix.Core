@@ -40,7 +40,7 @@ namespace Snehix.Core.API.Services
             }
             finally
             {
-                //await _connection.col
+                await _connection.CloseAsync();
             }
         }
 
@@ -63,7 +63,7 @@ namespace Snehix.Core.API.Services
             }
             finally
             {
-                //await _connection.col
+                await _connection.CloseAsync();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Snehix.Core.API.Services
             }
             finally
             {
-                //await _connection.col
+                await _connection.CloseAsync();
             }
         }
 
@@ -107,7 +107,7 @@ namespace Snehix.Core.API.Services
             }
             finally
             {
-                //await _connection.col
+                await _connection.CloseAsync();
             }
         }
 
@@ -137,36 +137,47 @@ namespace Snehix.Core.API.Services
             {
                 throw;
             }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<List<RawEntityDTO>> GetAllEntity()
         {
             var dt = new List<RawEntityDTO>();
             await _connection.OpenAsync();
-            using (MySqlCommand cmd = new MySqlCommand("Get_AllEntityByTypeId", _connection))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (MySqlCommand cmd = new MySqlCommand("Get_AllEntityByTypeId", _connection))
                 {
-                    var row = new RawEntityDTO();
-                    row.EntityId = Convert.ToInt32(dr["EntityId"]);
-                    row.EntityName = dr["EntityName"].ToString();
-                    row.EntityDescription = dr["EntityDescription"].ToString();
-                    row.EntityTypeId = Convert.ToInt32(dr["EntityTypeId"]);
-                    row.EntityTypeName = dr["EntityTypeName"].ToString();
-                    dt.Add(row);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new RawEntityDTO();
+                        row.EntityId = Convert.ToInt32(dr["EntityId"]);
+                        row.EntityName = dr["EntityName"].ToString();
+                        row.EntityDescription = dr["EntityDescription"].ToString();
+                        row.EntityTypeId = Convert.ToInt32(dr["EntityTypeId"]);
+                        row.EntityTypeName = dr["EntityTypeName"].ToString();
+                        dt.Add(row);
+                    }
                 }
+
+                return dt;
             }
-            
-            return dt;
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         public async Task<List<EntityDTO>> GetAllEntityById(int id)
         {
             List<EntityDTO> dt = new List<EntityDTO>();
             await _connection.OpenAsync();
+            try
+            { 
             using (MySqlCommand cmd = new MySqlCommand("Get_EntityById", _connection))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -183,6 +194,9 @@ namespace Snehix.Core.API.Services
             }
 
             return dt;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         public async Task<List<Country>> GetAllCountries()
@@ -208,10 +222,8 @@ namespace Snehix.Core.API.Services
                 }
                 return dt;
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         public async Task<List<State>> GetAllStatesByCountry(int countryId=0)
@@ -257,10 +269,8 @@ namespace Snehix.Core.API.Services
                 }
 
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
 
         public async Task<List<NestedCountry>> GetAllStatesCountry()
@@ -307,10 +317,8 @@ namespace Snehix.Core.API.Services
                 return finalList;
 
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
         }
     }
 }

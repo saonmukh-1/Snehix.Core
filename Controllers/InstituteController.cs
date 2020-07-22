@@ -119,7 +119,7 @@ namespace Snehix.Core.API.Controllers
 
         private string GetName(string name)
         {
-            return name.Substring(0, 3).TrimEnd().TrimStart() + Guid.NewGuid().ToString().ToLowerInvariant();
+            return name.ToLower().Substring(0, 3).TrimEnd().TrimStart() + Guid.NewGuid().ToString().ToLowerInvariant();
         }
 
         /// <summary>
