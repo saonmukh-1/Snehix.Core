@@ -178,4 +178,10 @@ namespace Snehix.Core.API.Models
         public string ISDN { get; set; }
 
     }
+
+    public class EncryptionModel
+    {
+        public string text   { get; set; }
+
+    }
 }

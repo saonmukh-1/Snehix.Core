@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Snehix.Core.API.DTO;
 using Snehix.Core.API.Filters;
 using Snehix.Core.API.Models;
@@ -16,6 +17,11 @@ namespace Snehix.Core.API.Controllers
     [Route("api/Amazon")]
     public class AmazonController : Controller
     {
+        
+        public AmazonController(IConfiguration configuration)
+        {
+            EncryptionService.Key = configuration.GetValue<string>("SymetricKey");
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -96,5 +102,37 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        [HttpPost("encrypt")]
+        public async Task<IActionResult> encryption(EncryptionModel model)
+        {
+            var service = EncryptionService.EncryptString( model.text);
+            
+            var response = new GenericResponse<string>()
+            {
+                IsSuccess = true,
+                Message = "Bucket created successfully.",
+                ResponseCode = 200,
+                Result = service
+            };
+            return Ok(response);
+        }
+
+        [HttpPost("decrypt")]
+        public async Task<IActionResult> decrypt(EncryptionModel model)
+        {
+            var service = EncryptionService.DecryptString(model.text);
+
+            var response = new GenericResponse<string>()
+            {
+                IsSuccess = true,
+                Message = "Bucket created successfully.",
+                ResponseCode = 200,
+                Result = service
+            };
+            return Ok(response);
+        }
+
+
     }
 }
