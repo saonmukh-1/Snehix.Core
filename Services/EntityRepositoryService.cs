@@ -111,6 +111,28 @@ namespace Snehix.Core.API.Services
             }
         }
 
+        public async Task UpdateEntityType(int Id,string name, string description)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+                var cmd = new MySqlCommand("Update_EntityType", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("EntityTypeId", Id);
+                cmd.Parameters.AddWithValue("EntityTypeName", name);
+                cmd.Parameters.AddWithValue("DescriptionValue", description);
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
         public async Task<List<EntityTypeResponse>> GetAllEntityType()
         {
             try

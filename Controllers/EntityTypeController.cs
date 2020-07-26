@@ -69,5 +69,22 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id,EntityTypeModel model)
+        {
+
+            var service = new EntityRepositoryService(connString);
+            await service.UpdateEntityType(id,model.Name, model.Description);
+            var response = new GenericResponse<string>()
+            {
+                IsSuccess = true,
+                Message = "EntityType updated successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
+        }
     }
 }
