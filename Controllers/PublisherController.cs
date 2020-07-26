@@ -27,6 +27,8 @@ namespace Snehix.Core.API.Controllers
         public PublisherController(IConfiguration configuration)
         {
             connString = configuration.GetConnectionString("Default");
+            AmazonIAMService.AWSAccessKey = configuration.GetValue<string>("AWSAccessKey");
+            AmazonIAMService.AWSSecurityKey = configuration.GetValue<string>("AWSSecurityKey");
         }
 
         [Authorize]
@@ -136,6 +138,75 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
 
+        }
+
+        [Authorize]
+        [HttpPost("ebook")]
+        public async Task<IActionResult> CreateEbook(EBookModel model)
+        {
+            var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
+            var service = new PublisherRepositoryService(connString);
+            var pubId = await service.CreateEBook(model, username);
+           
+            var response = new GenericResponse<int>()
+            {
+                IsSuccess = true,
+                Message = "Ebook created successfully.",
+                ResponseCode = 200,
+                Result = pubId
+            };
+            return Ok(response);
+        }
+        [Authorize]
+        [HttpPut("ebook")]
+        public async Task<IActionResult> UpdateEbook(EbookUpdateModel model)
+        {
+            var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
+            var service = new PublisherRepositoryService(connString);
+            await service.UpdateEbook(model, username);
+
+            var response = new GenericResponse<string>()
+            {
+                IsSuccess = true,
+                Message = "Ebook updated successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
+        }
+        [Authorize]
+        [HttpGet("ebook/{Id}")]
+        public async Task<IActionResult> GetEbookById(int Id)
+        {
+            var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
+            var service = new PublisherRepositoryService(connString);
+            var result = await service.GetEBookById(Id);
+
+            var response = new GenericResponse<EBookDTODetail>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+        [Authorize]
+        [HttpGet("ebook/{Id}/publisher")]
+        public async Task<IActionResult> GetEbookBypublisher(int Id)
+        {
+            var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
+            var service = new PublisherRepositoryService(connString);
+            var result = await service.GetEBookByPublisherId(Id);
+
+            var response = new GenericResponse<List<EBookDTO>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
         }
     }
 }

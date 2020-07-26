@@ -20,15 +20,7 @@ namespace Snehix.Core.API.Services
     /// </summary>
     public class AmazonS3Service
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public readonly string AWSAccessKey = "AKIAR5JVQC2D7GCMNCW4";
-        /// <summary>
-        /// 
-        /// </summary>
-        public readonly string AWSSecurityKey = "Brh3jBc8514G1yrOYSKZeJ9jy71xQgLKv/LwysXb";
-
+       
         /// <summary>
         /// 
         /// </summary>
@@ -36,7 +28,7 @@ namespace Snehix.Core.API.Services
         /// <returns></returns>
         public async Task CreateBucketToS3(string bucketName)
         {
-            using (var client = new AmazonS3Client(AWSAccessKey, AWSSecurityKey, RegionEndpoint.USEast1))
+            using (var client = new AmazonS3Client(AmazonIAMService.AWSAccessKey, AmazonIAMService.AWSSecurityKey, RegionEndpoint.USEast1))
             {
                     var uploadRequest = new PutBucketRequest
                     { 

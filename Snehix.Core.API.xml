@@ -594,12 +594,12 @@
             
             </summary>
         </member>
-        <member name="F:Snehix.Core.API.Services.AmazonIAMService.AWSAccessKey">
+        <member name="P:Snehix.Core.API.Services.AmazonIAMService.AWSAccessKey">
             <summary>
             
             </summary>
         </member>
-        <member name="F:Snehix.Core.API.Services.AmazonIAMService.AWSSecurityKey">
+        <member name="P:Snehix.Core.API.Services.AmazonIAMService.AWSSecurityKey">
             <summary>
             
             </summary>
@@ -625,16 +625,6 @@
             <returns></returns>
         </member>
         <member name="T:Snehix.Core.API.Services.AmazonS3Service">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Snehix.Core.API.Services.AmazonS3Service.AWSAccessKey">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Snehix.Core.API.Services.AmazonS3Service.AWSSecurityKey">
             <summary>
             
             </summary>

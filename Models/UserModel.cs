@@ -123,25 +123,22 @@ namespace Snehix.Core.API.Models
         public string Name { get; set; }
 
     }
-    public class EbookModel
+    public class EbookUpdateModel
     {
-        public int PublisherId { get; set; }
-        public string PublisherDescription { get; set; }
+        public int EbookId { get; set; }       
         public string Title { get; set; }
         public string Height { get; set; }
         public string Width { get; set; }
         public string Breadth { get; set; }
         public string DotInInch { get; set; }
         public string Author { get; set; }
-        public string ISDN { get; set; }
-        public string ContactName { get; set; }
-
+        public string ISDN { get; set; }        
+        public string EbookDescription { get; set; }
         public string Edition { get; set; }
         public int Year { get; set; }
         public bool FreeOfCost { get; set; }
         public int SubjectId { get; set; }
-        public int ClassId { get; set; }
-        //  public int InstituteId { get; set; }
+        public int ClassId { get; set; }        
     }
     public class PublisherModel
     {
@@ -151,6 +148,27 @@ namespace Snehix.Core.API.Models
         public string ContactNameVal { get; set; }
         public string PublisherDescription { get; set; }
         public bool CloudAccountRequired { get; set; }
+    }
+
+    public class EBookModel
+    {
+        public int? PublisherId { get; set; }
+        public string Height { get; set; }
+        public string Title { get; set; }
+        public string Width { get; set; }
+        public string Breadth { get; set; }
+        public string DotInInch { get; set; }
+
+        public string Author { get; set; }
+        public string ISDN { get; set; }
+        public string Edition { get; set; }
+        public int? Year { get; set; }
+
+        public bool? FreeOfCost { get; set; }
+        public int? ClassIdVal { get; set; }
+        public int? SubjectIdVal { get; set; }
+
+
     }
 
     public class PublisherAssociationModel

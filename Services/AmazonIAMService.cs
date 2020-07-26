@@ -13,11 +13,11 @@ namespace Snehix.Core.API.Services
         /// <summary>
         /// 
         /// </summary>
-        public readonly string AWSAccessKey = "AKIAR5JVQC2D7GCMNCW4";
+        public static string AWSAccessKey { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public readonly string AWSSecurityKey = "Brh3jBc8514G1yrOYSKZeJ9jy71xQgLKv/LwysXb";
+        public static string AWSSecurityKey { get; set; }
         /// <summary>
         /// 
         /// </summary>

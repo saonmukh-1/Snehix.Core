@@ -21,6 +21,8 @@ namespace Snehix.Core.API.Controllers
         public AmazonController(IConfiguration configuration)
         {
             EncryptionService.Key = configuration.GetValue<string>("SymetricKey");
+            AmazonIAMService.AWSAccessKey = configuration.GetValue<string>("AWSAccessKey");
+            AmazonIAMService.AWSSecurityKey = configuration.GetValue<string>("AWSSecurityKey");
         }
         /// <summary>
         /// 

@@ -36,4 +36,34 @@ namespace Snehix.Core.API.DTO
         public string IamUserName { get; set; }
 
     }
+
+    public class EBookDTO
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        //public string BranchName { get { return FirstName + " " + MiddleName + " " + LastName; } }
+        public string Height { get; set; }
+        public string Width { get; set; }
+        public string Breadth { get; set; }
+        public string DotInInch { get; set; }
+      
+        public string Author { get; set; }
+        public string Description { get; set; }
+
+        public int? ClassId { get; set; }
+        public string ISDN { get; set; }
+        public string Class { get; set; }
+        public int? SubjectId { get; set; }
+        public string Subject { get; set; }
+        public int? Year { get; set; }
+        public string Edition { get; set; }
+
+    }
+    public class EBookDTODetail: EBookDTO
+    {
+       
+        public int? PublisherId { get; set; }
+        public string PublisherName { get; set; }
+
+    }
 }

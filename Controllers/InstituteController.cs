@@ -28,6 +28,8 @@ namespace Snehix.Core.API.Controllers
         public InstituteController(IConfiguration configuration)
         {
             connString = configuration.GetConnectionString("Default");
+            AmazonIAMService.AWSAccessKey = configuration.GetValue<string>("AWSAccessKey");
+            AmazonIAMService.AWSSecurityKey = configuration.GetValue<string>("AWSSecurityKey");
         }
 
         /// <summary>
