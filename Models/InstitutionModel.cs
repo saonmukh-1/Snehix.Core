@@ -13,6 +13,12 @@ namespace Snehix.Core.API.Models
         public bool CloudAccountRequired { get; set; }
     }
 
+    public class InstitutionDuplicateModel
+    {
+        public string Name { get; set; }
+        public string BranchName { get; set; }       
+    }
+
     public class InstitutionModelUpdate
     {
         public string Name { get; set; }

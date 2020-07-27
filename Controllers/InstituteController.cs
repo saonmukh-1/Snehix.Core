@@ -16,7 +16,7 @@ namespace Snehix.Core.API.Controllers
 {
     [CustomException]
     [ModelValidationAction]
-    [Route("api/[controller]")]    
+    [Route("api/[controller]")]
     public class InstituteController : ControllerBase
     {
 
@@ -54,6 +54,26 @@ namespace Snehix.Core.API.Controllers
         }
 
         /// <summary>
+        /// Get all institutes
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("institutes/{name}")]
+        public async Task<IActionResult> GetInstitutesByName(string name)
+        {
+            var service = new InstituteRepositoryService(connString);
+            var result = await service.GetAllInstitutesByName(name);
+            var response = new GenericResponse<List<InstituteDTO>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Get institute by Id
         /// </summary>
         /// <param name="id"></param>
@@ -65,6 +85,23 @@ namespace Snehix.Core.API.Controllers
             var service = new InstituteRepositoryService(connString);
             var result = await service.GetInstituteById(id);
             var response = new GenericResponse<List<InstituteDTO>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpPost("checkduplicate")]
+        public async Task<IActionResult> CheckDuplicate(InstitutionDuplicateModel model)
+        {
+            var service = new InstituteRepositoryService(connString);
+            var res = await service.GetInstitutesByNameBranchName(model.Name,model.BranchName);
+            bool result = res.Count > 0;
+            var response = new GenericResponse<bool>()
             {
                 IsSuccess = true,
                 Message = "Data fetched successfully.",

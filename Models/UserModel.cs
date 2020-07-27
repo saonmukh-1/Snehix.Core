@@ -117,6 +117,11 @@ namespace Snehix.Core.API.Models
         public int ClassId { get; set; } = 0;
         public int SectionId { get; set; } = 0;
     }
+    public class UserSearchByName
+    {
+        public int InstituteId { get; set; } = 0;
+        public string Name { get; set; }        
+    }
 
     public class BucketModel
     {

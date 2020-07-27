@@ -518,5 +518,53 @@ namespace Snehix.Core.API.Services
 
         }
 
+        public async Task<List<UserDetails>> GetUserSearchByName(int instituteId, string userName)
+        {
+            List<UserDetails> dt = new List<UserDetails>();
+            try
+            {
+                await _connection.OpenAsync();
+
+                using (MySqlCommand cmd = new MySqlCommand("Get_AllUserSearch", _connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("InstituteIdVal", instituteId);
+                    cmd.Parameters.AddWithValue("UserNameVal", "%"+userName+"%");                    
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new UserDetails();
+                        row.UserId = Convert.ToInt32(dr["UserId"]);
+                        row.UserName = dr["UserName"].ToString();
+                        row.UserFullName = dr["FullName"].ToString();
+                        row.FatherName = dr["FatherName"].ToString();
+                        row.MotherName = dr["MotherName"].ToString();
+                        if (DateTime.TryParse(dr["DateOfBirth"].ToString(), out DateTime DateOfBirth))
+                            row.DateOfBirth = DateOfBirth;
+                        if (DateTime.TryParse(dr["JoiningDate"].ToString(), out DateTime JoiningDate))
+                            row.JoiningDate = JoiningDate;
+                        if (int.TryParse(dr["UserTypeId"].ToString(), out int UserTypeId))
+                            row.UsertypeId = UserTypeId;
+                        row.Usertype = dr["UserType"].ToString();
+                        if (int.TryParse(dr["InstituteId"].ToString(), out int InstituteId))
+                            row.InstituteId = InstituteId;
+                        row.InstituteName = dr["InstituteName"].ToString();
+                        if (int.TryParse(dr["ClassId"].ToString(), out int outClassId))
+                            row.ClassId = outClassId;
+                        row.ClassName = dr["Class"].ToString();
+                        if (int.TryParse(dr["SectionId"].ToString(), out int outSectionId))
+                            row.SectionId = outSectionId;
+                        row.SectionName = dr["Section"].ToString();
+
+                        dt.Add(row);
+                    }
+                }
+                return dt;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+
+        }
+
     }
 }

@@ -203,7 +203,22 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+        [Authorize]
+        [HttpPost("usersearchbyname")]
+        public async Task<IActionResult> UserSearch(UserSearchByName model)
+        {
+            var service = new UserRepositoryService(connString);
 
+            var result = await service.GetUserSearchByName(model.InstituteId, model.Name);
+            var response = new GenericResponse<List<UserDetails>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
 
     }
 }

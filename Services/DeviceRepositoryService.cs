@@ -320,7 +320,7 @@ namespace Snehix.Core.API.Services
 
         public async Task<DeviceDetails> GetAllDetailDeviceBySerialNumber(string serialNumber)
         {
-            var row = new DeviceDetails();
+            DeviceDetails row = null;
             await _connection.OpenAsync();
             try
             {
@@ -331,7 +331,7 @@ namespace Snehix.Core.API.Services
                     var dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
-
+                        row = new DeviceDetails();
                         row.Id = Convert.ToInt32(dr["deviceId"]);
                         row.Model = dr["Model"].ToString();
                         row.Description = dr["Description"].ToString();

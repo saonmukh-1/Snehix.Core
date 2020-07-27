@@ -244,6 +244,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Snehix.Core.API.Controllers.InstituteController.GetInstitutesByName(System.String)">
+            <summary>
+            Get all institutes
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Snehix.Core.API.Controllers.InstituteController.Get(System.Int32)">
             <summary>
             Get institute by Id

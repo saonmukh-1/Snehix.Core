@@ -122,6 +122,65 @@ namespace Snehix.Core.API.Services
             finally { await _connection.CloseAsync(); }
         }
 
+
+        public async Task<List<InstituteShortDTO>> GetInstitutesByNameBranchName(string name, 
+            string branchName)
+        {
+            var dt = new List<InstituteShortDTO>();
+            await _connection.OpenAsync();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Get_InstituteByNameAndBranch", _connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("NameVal", name);
+                    cmd.Parameters.AddWithValue("BranchNameVal", branchName);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new InstituteShortDTO();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Branch = dr["BranchName"].ToString();
+                        dt.Add(row);
+                    }
+                }
+                return dt;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
+        public async Task<List<InstituteDTO>> GetAllInstitutesByName(string name)
+        {
+            var dt = new List<InstituteDTO>();
+            await _connection.OpenAsync();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Get_Institutes", _connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new InstituteDTO();
+                        row.Id = Convert.ToInt32(dr["Id"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        row.EducationalBoard = dr["EducationalBoard"].ToString();
+                        row.InstitutionType = dr["InstitutionType"].ToString();
+
+                        dt.Add(row);
+                    }
+                }
+
+                return dt.Where(p=>p.Name.Contains(name)).ToList();
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
         public async Task<List<InstituteDTO>> GetInstituteById(int Id)
         {
             var dt = new List<InstituteDTO>();
