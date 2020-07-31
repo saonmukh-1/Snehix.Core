@@ -19,6 +19,6 @@ namespace Snehix.Core.API.Models
 
     public class EntityTypeResponse: EntityTypeModel
     {
-        public string Id { get; set; }        
+        public int Id { get; set; }        
     }
 }

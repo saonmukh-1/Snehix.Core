@@ -14,6 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using Snehix.Core.API.DTO;
 using Snehix.Core.API.Filters;
 using Snehix.Core.API.Services;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace Snehix.Core.API.Controllers
 {
@@ -139,7 +141,47 @@ namespace Snehix.Core.API.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        
+
+        [HttpPost]
+        public async Task<object> SendPasswordResetLink(string username)
+        {
+            var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == username);
+            var token = _userManager.GeneratePasswordResetTokenAsync(appUser).Result;
+            var resetLink = $"http://localhost:50232/Account/ResetPassword?token={token}";
+            
+            MimeMessage message = new MimeMessage();
+
+            MailboxAddress from = new MailboxAddress("no-reply",
+            "no-reply@Snehix.Com");
+            message.From.Add(from);
+
+            MailboxAddress to = new MailboxAddress(appUser.UserName,
+            appUser.Email);
+            message.To.Add(to);
+
+            message.Subject = "Password-Reset";
+
+            BodyBuilder bodyBuilder = new BodyBuilder();
+            StringBuilder sr = new StringBuilder();
+            sr.Append($"<h1>Hi {appUser.UserName}, </h1>");
+            sr.Append("<br/>");
+            sr.Append($"<h1>Click {resetLink} </h1>");
+            bodyBuilder.HtmlBody = sr.ToString();
+            
+            if (!string.IsNullOrEmpty(token))
+            {
+                var response = new GenericResponse<string>()
+                {
+                    IsSuccess = true,
+                    Message = "Signed in successfully.",
+                    ResponseCode = 200,
+                    Result= token
+                };                
+                return Ok(response);
+            }
+            throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
+        }
+
         public class LoginDto
         {
             [Required]

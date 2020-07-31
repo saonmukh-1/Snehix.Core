@@ -147,7 +147,7 @@ namespace Snehix.Core.API.Services
                     while (dr.Read())
                     {
                         var row = new EntityTypeResponse();
-                        row.Id = dr["ID"].ToString();
+                        row.Id = Convert.ToInt32(dr["ID"]);
                         row.Name = dr["Name"].ToString();
                         row.Description = dr["Description"].ToString();
                         dt.Add(row);

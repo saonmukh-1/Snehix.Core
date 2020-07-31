@@ -172,8 +172,14 @@ namespace Snehix.Core.API.Models
         public bool? FreeOfCost { get; set; }
         public int? ClassIdVal { get; set; }
         public int? SubjectIdVal { get; set; }
+    }
 
-
+    public class EBookSearch
+    {
+        public int InstituteId { get; set; } = 0;
+        public int ClassId { get; set; } = 0;
+        public int SubjectId { get; set; } = 0;
+        public int PublisherId { get; set; } = 0;
     }
 
     public class PublisherAssociationModel

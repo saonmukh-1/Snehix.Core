@@ -13,6 +13,16 @@ namespace Snehix.Core.API.Models
         public bool CloudAccountRequired { get; set; }
     }
 
+    public class EmailModel
+    {
+        public string ToEmail { get; set; }
+        public string ToUser { get; set; }
+        public string FromEmail { get; set; }
+        public string FromUser { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+    }
+
     public class InstitutionDuplicateModel
     {
         public string Name { get; set; }

@@ -48,6 +48,28 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+       /// <summary>
+       /// Get entity type by ID
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
+        [Authorize]
+        [HttpGet("id")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var service = new EntityRepositoryService(connString);
+            var res = await service.GetAllEntityType();
+            var result = res.Where(a => a.Id == id).FirstOrDefault();
+            var response = new GenericResponse<EntityTypeResponse>()
+            {
+                IsSuccess = true,
+                Message = "Data Fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+
         /// <summary>
         /// Create entity type
         /// </summary>

@@ -372,5 +372,59 @@ namespace Snehix.Core.API.Services
             finally { await _connection.CloseAsync(); }
         }
 
+        public async Task<List<EBookDetail>> EbookSearch(EBookSearch search)
+        {
+            var result = new List<EBookDetail>();
+            await _connection.OpenAsync();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Ebook_Search", _connection))
+                {
+                    
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("InstituteIdVal", search.InstituteId);
+                    cmd.Parameters.AddWithValue("ClassIdVal", search.ClassId);
+                    cmd.Parameters.AddWithValue("SubjectIdVal", search.SubjectId);
+                    cmd.Parameters.AddWithValue("PublisherIdVal", search.PublisherId);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new EBookDetail();
+                        row.Id = Convert.ToInt32(dr["EbookId"]);
+                        row.Title = dr["Title"].ToString();
+                        row.Height = dr["Height"].ToString();
+                        row.Width = dr["Width"].ToString();
+                        if (int.TryParse(dr["ClassId"].ToString(), out int clsid))
+                            row.ClassId = clsid;
+                        row.Breadth = dr["Breadth"].ToString();
+                        if (int.TryParse(dr["SubjectId"].ToString(), out int subid))
+                            row.SubjectId = subid;
+                        row.DotInInch = dr["DotInInch"].ToString();
+                        row.Author = dr["Author"].ToString();
+                        if (int.TryParse(dr["Year"].ToString(), out int Year))
+                            row.Year = Year;
+                        row.Description = dr["Description"].ToString();
+                        row.ISDN = dr["ISDN"].ToString();
+                        row.Class = dr["Class"].ToString();
+                        row.Subject = dr["Subject"].ToString();
+                        row.Edition = dr["Edition"].ToString();
+                        if (int.TryParse(dr["PublisherId"].ToString(), out int publisherId))
+                            row.PublisherId = publisherId;
+                        row.PublisherName = dr["PublisherName"].ToString();
+
+                        if (int.TryParse(dr["InstituteId"].ToString(), out int instituteId))
+                            row.InstituteId = instituteId;
+                        row.InstituteName = dr["InstituteName"].ToString();
+                        row.InstituteBranchName = dr["InstituteBranchName"].ToString();
+                        result.Add(row);
+                    }
+                }
+
+                return result;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
     }
 }

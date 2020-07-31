@@ -68,10 +68,16 @@ namespace Snehix.Core.API.DTO
 
     }
     public class EBookDTODetail: EBookDTO
-    {
-       
+    {       
         public int? PublisherId { get; set; }
         public string PublisherName { get; set; }
+    }
+
+    public class EBookDetail: EBookDTODetail
+    {
+        public int? InstituteId { get; set; }
+        public string InstituteName { get; set; }
+        public string InstituteBranchName { get; set; }
 
     }
 }

@@ -208,5 +208,23 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        [Authorize]
+        [HttpPost("ebook/search")]
+        public async Task<IActionResult> EbookSearch(EBookSearch model)
+        {
+            var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
+            var service = new PublisherRepositoryService(connString);
+            var result = await service.EbookSearch(model);
+
+            var response = new GenericResponse<List<EBookDetail>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
     }
 }

@@ -126,6 +126,24 @@
             <param name="slnumber"></param>
             <returns></returns>
         </member>
+        <member name="P:Snehix.Core.API.Controllers.EmailController.SendgridKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EmailController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EmailController.SendEmail(Snehix.Core.API.Models.EmailModel)">
+            <summary>
+            Send email
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:Snehix.Core.API.Controllers.EntityController">
             <summary>
             
@@ -182,6 +200,13 @@
             <summary>
             Get all entity type
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Snehix.Core.API.Controllers.EntityTypeController.Get(System.Int32)">
+            <summary>
+            Get entity type by ID
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Snehix.Core.API.Controllers.EntityTypeController.Post(Snehix.Core.API.Models.EntityTypeModel)">
