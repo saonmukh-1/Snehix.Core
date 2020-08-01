@@ -54,7 +54,7 @@ namespace Snehix.Core.API.Controllers
        /// <param name="id"></param>
        /// <returns></returns>
         [Authorize]
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var service = new EntityRepositoryService(connString);

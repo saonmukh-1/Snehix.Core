@@ -19,7 +19,8 @@ namespace Snehix.Core.API.DTO
     {
         public int EntityId { get; set; }
         public string EntityName { get; set; }
-        public string EntityDescription { get; set; }        
+        public string EntityDescription { get; set; }
+        public int EntityTypeId { get; set; }
     }
 
     public class EntityTypeDTO

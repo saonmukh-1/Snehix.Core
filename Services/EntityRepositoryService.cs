@@ -209,6 +209,7 @@ namespace Snehix.Core.API.Services
                 {
                     var row = new EntityDTO();
                     row.EntityId = Convert.ToInt32(dr["ID"]);
+                    row.EntityTypeId = Convert.ToInt32(dr["EntityTypeId"]);
                     row.EntityName = dr["Name"].ToString();
                     row.EntityDescription = dr["Description"].ToString();                   
                     dt.Add(row);
