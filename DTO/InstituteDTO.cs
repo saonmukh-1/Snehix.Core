@@ -9,11 +9,42 @@ namespace Snehix.Core.API.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        //public string BranchName { get { return FirstName + " " + MiddleName + " " + LastName; } }
-        public string Description { get; set; }
-        public string EducationalBoard { get; set; }
-        public string InstitutionType { get; set; }
-        
+        public string BranchName { get; set; }
+        public string Description { get; set; }       
+        public EntityDetail InstitutionType { get; set; }        
+        public Address MailingAddress { get; set; }
+        public Address BillingAddress { get; set; }
+        public Contact ContactInfo { get; set; }
+        public EntityDetail EducationalBoard { get; set; }
+    }
+
+    public class EntityDetail
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class Address
+    {
+        public int AddressId { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string AddressLine3 { get; set; }
+        public string City { get; set; }
+        public EntityDetail State { get; set; }
+        public EntityDetail Country { get; set; }
+        public string Zipcode { get; set; }
+    }
+
+    public class Contact
+    {
+        public int ContactId { get; set; }
+        public string LandLineNumber { get; set; }
+        public string AltLandLineNumber { get; set; }
+        public string MobileNumber { get; set; }
+        public string AltMobileNumber { get; set; }
+        public string EmailId { get; set; }
+        public string AltEmailId { get; set; }
     }
 
     public class InstituteShortDTO

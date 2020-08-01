@@ -84,7 +84,7 @@ namespace Snehix.Core.API.Controllers
         {
             var service = new InstituteRepositoryService(connString);
             var result = await service.GetInstituteById(id);
-            var response = new GenericResponse<List<InstituteDTO>>()
+            var response = new GenericResponse<InstituteDTO>()
             {
                 IsSuccess = true,
                 Message = "Data fetched successfully.",
@@ -196,7 +196,7 @@ namespace Snehix.Core.API.Controllers
         {
             var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
             var service = new InstituteRepositoryService(connString);
-            var institute = (await service.GetInstituteById(id)).FirstOrDefault().Name;
+            var institute = (await service.GetInstituteById(id)).Name;
             var bucketSevice = new AmazonS3Service();
             var bucketName = GetName(institute);
             await bucketSevice.CreateBucketToS3(bucketName);

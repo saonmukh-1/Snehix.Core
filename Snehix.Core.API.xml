@@ -503,6 +503,13 @@
             <param name="id">User id</param>
             <returns></returns>
         </member>
+        <member name="M:Snehix.Core.API.Controllers.UserController.CheckEmail(System.String)">
+            <summary>
+            If duplicate email
+            </summary>
+            <param name="email">email</param>
+            <returns></returns>
+        </member>
         <member name="M:Snehix.Core.API.Controllers.UserController.UpdateUserLogin(Snehix.Core.API.Models.UpdateUserLoginModel)">
             <summary>
             Update user login with device IP and set flag to false for IsNewAccount

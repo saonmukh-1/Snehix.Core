@@ -148,8 +148,8 @@ namespace Snehix.Core.API.Services
                         row.Description = dr["description"].ToString();
                         row.SerialNumber = dr["SerialNumber"].ToString();
                         row.Version = dr["Version"].ToString();
-                        if (dr["userId"] != null && dr["userId"] != DBNull.Value)
-                            row.UserId = Convert.ToInt32(dr["userId"]);
+                        if (int.TryParse(dr["userId"].ToString(), out int userId))
+                            row.UserId = userId;                       
                         row.UserName = dr["Username"].ToString();
                         dt.Add(row);
                     }
@@ -185,8 +185,8 @@ namespace Snehix.Core.API.Services
                         row.Description = dr["description"].ToString();
                         row.SerialNumber = dr["SerialNumber"].ToString();
                         row.Version = dr["Version"].ToString();
-                        if (dr["userId"] != null)
-                            row.UserId = Convert.ToInt32(dr["userId"]);
+                        if (int.TryParse(dr["userId"].ToString(), out int userId))
+                            row.UserId = userId;                        
                         row.UserName = dr["Username"].ToString();
                         dt.Add(row);
                     }
@@ -222,8 +222,8 @@ namespace Snehix.Core.API.Services
                         row.Description = dr["description"].ToString();
                         row.SerialNumber = dr["SerialNumber"].ToString();
                         row.Version = dr["Version"].ToString();
-                        if (dr["userId"] != null)
-                            row.UserId = Convert.ToInt32(dr["userId"]);
+                        if (int.TryParse(dr["userId"].ToString(), out int userId))
+                            row.UserId = userId;
                         row.UserName = dr["Username"].ToString();
                         dt.Add(row);
                     }

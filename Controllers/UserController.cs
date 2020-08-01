@@ -149,8 +149,31 @@ namespace Snehix.Core.API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var service = new UserRepositoryService(connString);
-            var result = await service.GetUseryById(id);
-            var response = new GenericResponse<List<UserDTO>>()
+            var result = await service.GetUserById(id);
+            var response = new GenericResponse<UserDetails>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// If duplicate email
+        /// </summary>
+        /// <param name="email">email</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("checkemail/{email}")]
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+
+            var res = await _userManager.FindByEmailAsync(email);
+            bool result = false;
+            if (res != null) result = true;
+            var response = new GenericResponse<bool>()
             {
                 IsSuccess = true,
                 Message = "Data fetched successfully.",

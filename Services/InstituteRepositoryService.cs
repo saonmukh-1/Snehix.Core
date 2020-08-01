@@ -106,11 +106,65 @@ namespace Snehix.Core.API.Services
                     while (dr.Read())
                     {
                         var row = new InstituteDTO();
-                        row.Id = Convert.ToInt32(dr["Id"]);
-                        row.Name = dr["Name"].ToString();
-                        row.Description = dr["Description"].ToString();
-                        row.EducationalBoard = dr["EducationalBoard"].ToString();
-                        row.InstitutionType = dr["InstitutionType"].ToString();
+                        row.Id = Convert.ToInt32(dr["InstituteId"]);
+                        row.Name = dr["InstituteName"].ToString();
+                        row.BranchName = dr["InstituteBranchName"].ToString();
+                        row.Description = dr["InstituteDescription"].ToString();
+
+                        row.InstitutionType = new EntityDetail();
+                        if (int.TryParse(dr["InstituteTypeId"].ToString(), out int InstituteTypeId))
+                            row.InstitutionType.Id = InstituteTypeId;
+                        row.InstitutionType.Name = dr["InstituteTypeName"].ToString();
+
+                        row.EducationalBoard = new EntityDetail();
+                        if (int.TryParse(dr["EducationalBoardId"].ToString(), out int EducationalBoardId))
+                            row.EducationalBoard.Id = EducationalBoardId;
+                        row.EducationalBoard.Name = dr["EducationalBoardName"].ToString();
+
+                        row.ContactInfo = new DTO.Contact();
+                        if (int.TryParse(dr["ContactId"].ToString(), out int ContactId))
+                            row.ContactInfo.ContactId = ContactId;
+                        row.ContactInfo.LandLineNumber = dr["LandlineNumber"].ToString();
+                        row.ContactInfo.AltLandLineNumber = dr["AlternateLandLineNumber"].ToString();
+                        row.ContactInfo.MobileNumber = dr["MobileNumber"].ToString();
+                        row.ContactInfo.AltMobileNumber = dr["AlternateMobileNumber"].ToString();
+                        row.ContactInfo.EmailId = dr["EmailId"].ToString();
+                        row.ContactInfo.AltEmailId = dr["AlternateEmailId"].ToString();
+
+                        row.BillingAddress = new DTO.Address();
+                        if (int.TryParse(dr["BillingAddressId"].ToString(), out int BillingAddressId))
+                            row.BillingAddress.AddressId = BillingAddressId;
+                        row.BillingAddress.AddressLine1 = dr["BillingAddressLine1"].ToString();
+                        row.BillingAddress.AddressLine2 = dr["BillingAddressLine2"].ToString();
+                        row.BillingAddress.AddressLine3 = dr["BillingAddressLine3"].ToString();
+                        row.BillingAddress.City = dr["BillingAddressCity"].ToString();
+                        row.BillingAddress.Zipcode = dr["BillingAddressZip"].ToString();
+                        row.BillingAddress.State = new EntityDetail();
+                        if (int.TryParse(dr["BillingStateId"].ToString(), out int BillingStateId))
+                            row.BillingAddress.State.Id = BillingStateId;
+                        row.BillingAddress.State.Name = dr["BillingState"].ToString();
+                        row.BillingAddress.Country = new EntityDetail();
+                        if (int.TryParse(dr["BillingCountryId"].ToString(), out int BillingCountryId))
+                            row.BillingAddress.Country.Id = BillingCountryId;
+                        row.BillingAddress.Country.Name = dr["BillingCountry"].ToString();
+
+                        row.MailingAddress = new DTO.Address();
+                        if (int.TryParse(dr["MailingAddressId"].ToString(), out int MailingAddressId))
+                            row.MailingAddress.AddressId = MailingAddressId;
+                        row.MailingAddress.AddressLine1 = dr["MailingAddressLine1"].ToString();
+                        row.MailingAddress.AddressLine2 = dr["MailingAddressLine2"].ToString();
+                        row.MailingAddress.AddressLine3 = dr["MailingAddressLine3"].ToString();
+                        row.MailingAddress.City = dr["MailingAddressCity"].ToString();
+                        row.MailingAddress.Zipcode = dr["MailingAddressZip"].ToString();
+                        row.MailingAddress.State = new EntityDetail();
+                        if (int.TryParse(dr["MailingStateId"].ToString(), out int MailingStateId))
+                            row.MailingAddress.State.Id = MailingStateId;
+                        row.MailingAddress.State.Name = dr["MailingState"].ToString();
+
+                        row.MailingAddress.Country = new EntityDetail();
+                        if (int.TryParse(dr["MailingCountryId"].ToString(), out int MailingCountryId))
+                            row.MailingAddress.Country.Id = MailingCountryId;
+                        row.MailingAddress.Country.Name = dr["MaillingCountry"].ToString();
 
                         dt.Add(row);
                     }
@@ -157,19 +211,73 @@ namespace Snehix.Core.API.Services
             await _connection.OpenAsync();
             try
             {
-                using (MySqlCommand cmd = new MySqlCommand("Get_Institutes", _connection))
+                using (MySqlCommand cmd = new MySqlCommand("Get_InstitutesByName", _connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
+                    cmd.Parameters.AddWithValue("InstituteNameVal", name);
                     var dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
                         var row = new InstituteDTO();
-                        row.Id = Convert.ToInt32(dr["Id"]);
-                        row.Name = dr["Name"].ToString();
-                        row.Description = dr["Description"].ToString();
-                        row.EducationalBoard = dr["EducationalBoard"].ToString();
-                        row.InstitutionType = dr["InstitutionType"].ToString();
+                        row.Id = Convert.ToInt32(dr["InstituteId"]);
+                        row.Name = dr["InstituteName"].ToString();
+                        row.BranchName = dr["InstituteBranchName"].ToString();
+                        row.Description = dr["InstituteDescription"].ToString();
+
+                        row.InstitutionType = new EntityDetail();
+                        if (int.TryParse(dr["InstituteTypeId"].ToString(), out int InstituteTypeId))
+                            row.InstitutionType.Id = InstituteTypeId;
+                        row.InstitutionType.Name = dr["InstituteTypeName"].ToString();
+
+                        row.EducationalBoard = new EntityDetail();
+                        if (int.TryParse(dr["EducationalBoardId"].ToString(), out int EducationalBoardId))
+                            row.EducationalBoard.Id = EducationalBoardId;
+                        row.EducationalBoard.Name = dr["EducationalBoardName"].ToString();
+
+                        row.ContactInfo = new DTO.Contact();
+                        if (int.TryParse(dr["ContactId"].ToString(), out int ContactId))
+                            row.ContactInfo.ContactId = ContactId;                        
+                        row.ContactInfo.LandLineNumber = dr["LandlineNumber"].ToString();
+                        row.ContactInfo.AltLandLineNumber = dr["AlternateLandLineNumber"].ToString();
+                        row.ContactInfo.MobileNumber = dr["MobileNumber"].ToString();
+                        row.ContactInfo.AltMobileNumber = dr["AlternateMobileNumber"].ToString();
+                        row.ContactInfo.EmailId = dr["EmailId"].ToString();
+                        row.ContactInfo.AltEmailId = dr["AlternateEmailId"].ToString();
+
+                        row.BillingAddress = new DTO.Address();                        
+                        if (int.TryParse(dr["BillingAddressId"].ToString(), out int BillingAddressId))                                
+                            row.BillingAddress.AddressId = BillingAddressId;
+                        row.BillingAddress.AddressLine1 = dr["BillingAddressLine1"].ToString();
+                        row.BillingAddress.AddressLine2 = dr["BillingAddressLine2"].ToString();
+                        row.BillingAddress.AddressLine3 = dr["BillingAddressLine3"].ToString();
+                        row.BillingAddress.City = dr["BillingAddressCity"].ToString();
+                        row.BillingAddress.Zipcode = dr["BillingAddressZip"].ToString();
+                        row.BillingAddress.State = new EntityDetail();                        
+                        if (int.TryParse(dr["BillingStateId"].ToString(), out int BillingStateId))
+                            row.BillingAddress.State.Id = BillingStateId;
+                        row.BillingAddress.State.Name = dr["BillingState"].ToString();
+                        row.BillingAddress.Country = new EntityDetail();
+                        if (int.TryParse(dr["BillingCountryId"].ToString(), out int BillingCountryId))                                
+                            row.BillingAddress.Country.Id = BillingCountryId;
+                        row.BillingAddress.Country.Name = dr["BillingCountry"].ToString();
+
+                        row.MailingAddress = new DTO.Address();
+                        if (int.TryParse(dr["MailingAddressId"].ToString(), out int MailingAddressId))
+                            row.MailingAddress.AddressId = MailingAddressId;                        
+                        row.MailingAddress.AddressLine1 = dr["MailingAddressLine1"].ToString();
+                        row.MailingAddress.AddressLine2 = dr["MailingAddressLine2"].ToString();
+                        row.MailingAddress.AddressLine3 = dr["MailingAddressLine3"].ToString();
+                        row.MailingAddress.City = dr["MailingAddressCity"].ToString();
+                        row.MailingAddress.Zipcode = dr["MailingAddressZip"].ToString();
+                        row.MailingAddress.State = new EntityDetail();
+                        if (int.TryParse(dr["MailingStateId"].ToString(), out int MailingStateId))
+                            row.MailingAddress.State.Id = MailingStateId;                        
+                        row.MailingAddress.State.Name = dr["MailingState"].ToString();
+
+                        row.MailingAddress.Country = new EntityDetail();
+                        if (int.TryParse(dr["MailingCountryId"].ToString(), out int MailingCountryId))
+                            row.MailingAddress.Country.Id = MailingCountryId;
+                        row.MailingAddress.Country.Name = dr["MaillingCountry"].ToString(); 
 
                         dt.Add(row);
                     }
@@ -181,31 +289,83 @@ namespace Snehix.Core.API.Services
             finally { await _connection.CloseAsync(); }
         }
 
-        public async Task<List<InstituteDTO>> GetInstituteById(int Id)
+        public async Task<InstituteDTO> GetInstituteById(int Id)
         {
-            var dt = new List<InstituteDTO>();
+            InstituteDTO row = null;
             await _connection.OpenAsync();
             try
             {
                 using (MySqlCommand cmd = new MySqlCommand("Get_InstitutesById", _connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("InstituteId", Id);
+                    cmd.Parameters.AddWithValue("InstituteIdVal", Id);
                     var dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
-                        var row = new InstituteDTO();
-                        row.Id = Convert.ToInt32(dr["Id"]);
-                        row.Name = dr["Name"].ToString();
-                        row.Description = dr["Description"].ToString();
-                        row.EducationalBoard = dr["EducationalBoard"].ToString();
-                        row.InstitutionType = dr["InstitutionType"].ToString();
+                        row = new InstituteDTO();
+                        row.Id = Convert.ToInt32(dr["InstituteId"]);
+                        row.Name = dr["InstituteName"].ToString();
+                        row.BranchName = dr["InstituteBranchName"].ToString();
+                        row.Description = dr["InstituteDescription"].ToString();
 
-                        dt.Add(row);
+                        row.InstitutionType = new EntityDetail();
+                        if (int.TryParse(dr["InstituteTypeId"].ToString(), out int InstituteTypeId))
+                            row.InstitutionType.Id = InstituteTypeId;
+                        row.InstitutionType.Name = dr["InstituteTypeName"].ToString();
+
+                        row.EducationalBoard = new EntityDetail();
+                        if (int.TryParse(dr["EducationalBoardId"].ToString(), out int EducationalBoardId))
+                            row.EducationalBoard.Id = EducationalBoardId;
+                        row.EducationalBoard.Name = dr["EducationalBoardName"].ToString();
+
+                        row.ContactInfo = new DTO.Contact();
+                        if (int.TryParse(dr["ContactId"].ToString(), out int ContactId))
+                            row.ContactInfo.ContactId = ContactId;
+                        row.ContactInfo.LandLineNumber = dr["LandlineNumber"].ToString();
+                        row.ContactInfo.AltLandLineNumber = dr["AlternateLandLineNumber"].ToString();
+                        row.ContactInfo.MobileNumber = dr["MobileNumber"].ToString();
+                        row.ContactInfo.AltMobileNumber = dr["AlternateMobileNumber"].ToString();
+                        row.ContactInfo.EmailId = dr["EmailId"].ToString();
+                        row.ContactInfo.AltEmailId = dr["AlternateEmailId"].ToString();
+
+                        row.BillingAddress = new DTO.Address();
+                        if (int.TryParse(dr["BillingAddressId"].ToString(), out int BillingAddressId))
+                            row.BillingAddress.AddressId = BillingAddressId;
+                        row.BillingAddress.AddressLine1 = dr["BillingAddressLine1"].ToString();
+                        row.BillingAddress.AddressLine2 = dr["BillingAddressLine2"].ToString();
+                        row.BillingAddress.AddressLine3 = dr["BillingAddressLine3"].ToString();
+                        row.BillingAddress.City = dr["BillingAddressCity"].ToString();
+                        row.BillingAddress.Zipcode = dr["BillingAddressZip"].ToString();
+                        row.BillingAddress.State = new EntityDetail();
+                        if (int.TryParse(dr["BillingStateId"].ToString(), out int BillingStateId))
+                            row.BillingAddress.State.Id = BillingStateId;
+                        row.BillingAddress.State.Name = dr["BillingState"].ToString();
+                        row.BillingAddress.Country = new EntityDetail();
+                        if (int.TryParse(dr["BillingCountryId"].ToString(), out int BillingCountryId))
+                            row.BillingAddress.Country.Id = BillingCountryId;
+                        row.BillingAddress.Country.Name = dr["BillingCountry"].ToString();
+
+                        row.MailingAddress = new DTO.Address();
+                        if (int.TryParse(dr["MailingAddressId"].ToString(), out int MailingAddressId))
+                            row.MailingAddress.AddressId = MailingAddressId;
+                        row.MailingAddress.AddressLine1 = dr["MailingAddressLine1"].ToString();
+                        row.MailingAddress.AddressLine2 = dr["MailingAddressLine2"].ToString();
+                        row.MailingAddress.AddressLine3 = dr["MailingAddressLine3"].ToString();
+                        row.MailingAddress.City = dr["MailingAddressCity"].ToString();
+                        row.MailingAddress.Zipcode = dr["MailingAddressZip"].ToString();
+                        row.MailingAddress.State = new EntityDetail();
+                        if (int.TryParse(dr["MailingStateId"].ToString(), out int MailingStateId))
+                            row.MailingAddress.State.Id = MailingStateId;
+                        row.MailingAddress.State.Name = dr["MailingState"].ToString();
+
+                        row.MailingAddress.Country = new EntityDetail();
+                        if (int.TryParse(dr["MailingCountryId"].ToString(), out int MailingCountryId))
+                            row.MailingAddress.Country.Id = MailingCountryId;
+                        row.MailingAddress.Country.Name = dr["MaillingCountry"].ToString();
                     }
                 }
 
-                return dt;
+                return row;
             }
             catch { throw; }
             finally { await _connection.CloseAsync(); }
