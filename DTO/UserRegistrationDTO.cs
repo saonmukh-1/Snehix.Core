@@ -47,6 +47,8 @@ namespace Snehix.Core.API.DTO
         public string ClassName { get; set; }
         public int? SectionId { get; set; }
         public string SectionName { get; set; }
+        public string RollNumber { get; set; }
+        public string PictureUrl { get; set; }
 
     }
 }

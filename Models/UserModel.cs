@@ -34,6 +34,8 @@ namespace Snehix.Core.API.Models
         public int? InstituteId { get; set; }
         public int? SectionId { get; set; }
         public int? ClassId { get; set; }
+        public string RollNumber { get; set; }
+        public string PictureUrl { get; set; }
     }
 
     /// <summary>

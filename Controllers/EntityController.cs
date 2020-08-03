@@ -138,6 +138,40 @@ namespace Snehix.Core.API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpGet("search/{name}")]
+        public async Task<IActionResult> Search(string name)
+        {
+            var service = new EntityRepositoryService(connString);
+            var result = await service.SearchEntity(name);
+            var response = new GenericResponse<List<EntityDTO>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("exist/{name}")]
+        public async Task<IActionResult> Exist(string name)
+        {
+            var service = new EntityRepositoryService(connString);
+            var res = await service.GetEntityByName(name);
+            bool result = false;
+            if (res != null) result = true;
+            var response = new GenericResponse<bool>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+
         /// <summary>
         /// Create entity
         /// </summary>

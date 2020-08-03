@@ -58,8 +58,7 @@ namespace Snehix.Core.API.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var service = new EntityRepositoryService(connString);
-            var res = await service.GetAllEntityType();
-            var result = res.Where(a => a.Id == id).FirstOrDefault();
+            var result = await service.GetEntityTypeByID(id);           
             var response = new GenericResponse<EntityTypeResponse>()
             {
                 IsSuccess = true,
@@ -105,6 +104,40 @@ namespace Snehix.Core.API.Controllers
                 Message = "EntityType updated successfully.",
                 ResponseCode = 200,
                 Result = "Success"
+            };
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("search/{name}")]
+        public async Task<IActionResult> Search(string name)
+        {
+            var service = new EntityRepositoryService(connString);
+            var result = await service.SearchEntityType(name);
+            var response = new GenericResponse<List<EntityTypeResponse>>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("exist/{name}")]
+        public async Task<IActionResult> Exist(string name)
+        {
+            var service = new EntityRepositoryService(connString);
+            var res = await service.GetEntityTypeByName(name);
+            bool result = false;
+            if (res != null) result = true;
+            var response = new GenericResponse<bool>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
             };
             return Ok(response);
         }

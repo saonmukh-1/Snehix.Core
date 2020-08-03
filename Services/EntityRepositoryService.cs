@@ -222,6 +222,142 @@ namespace Snehix.Core.API.Services
             finally { await _connection.CloseAsync(); }
         }
 
+
+        public async Task<List<EntityDTO>> SearchEntity(string name)
+        {
+            List<EntityDTO> dt = new List<EntityDTO>();
+            await _connection.OpenAsync();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Search_Entity", _connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("EntityNameVal", "%"+name+"%");
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        var row = new EntityDTO();
+                        row.EntityId = Convert.ToInt32(dr["ID"]);
+                        row.EntityTypeId = Convert.ToInt32(dr["EntityTypeId"]);
+                        row.EntityName = dr["Name"].ToString();
+                        row.EntityDescription = dr["Description"].ToString();
+                        dt.Add(row);
+                    }
+                }
+
+                return dt;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
+        public async Task<EntityDTO> GetEntityByName(string name)
+        {
+            EntityDTO row = null;
+            await _connection.OpenAsync();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Get_EntityByName", _connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("EntityNameVal", name);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        row = new EntityDTO();
+                        row.EntityId = Convert.ToInt32(dr["ID"]);
+                        row.EntityTypeId = Convert.ToInt32(dr["EntityTypeId"]);
+                        row.EntityName = dr["Name"].ToString();
+                        row.EntityDescription = dr["Description"].ToString();                        
+                    }
+                }
+
+                return row;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
+        public async Task<List<EntityTypeResponse>> SearchEntityType(string name)
+        {
+            List<EntityTypeResponse> dt = new List<EntityTypeResponse>();
+            await _connection.OpenAsync();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Search_EntityType", _connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("EntityTypeNameVal", "%" + name + "%");
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {                       
+                        var row = new EntityTypeResponse();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                        dt.Add(row);                       
+                    }
+                }
+
+                return dt;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
+        public async Task<EntityTypeResponse> GetEntityTypeByName(string name)
+        {
+            EntityTypeResponse row = null;
+            await _connection.OpenAsync();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Get_EntityTypeByName", _connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("EntityTypeNameVal", name);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        row = new EntityTypeResponse();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();                        
+                    }
+                }
+
+                return row;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
+        public async Task<EntityTypeResponse> GetEntityTypeByID(int Id)
+        {
+            EntityTypeResponse row = null;
+            await _connection.OpenAsync();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Get_EntityTypeById", _connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("EntityTypeId", Id);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        row = new EntityTypeResponse();
+                        row.Id = Convert.ToInt32(dr["ID"]);
+                        row.Name = dr["Name"].ToString();
+                        row.Description = dr["Description"].ToString();
+                    }
+                }
+
+                return row;
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
+
         public async Task<List<Country>> GetAllCountries()
         {
             try

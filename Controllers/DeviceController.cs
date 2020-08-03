@@ -224,5 +224,23 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        [Authorize]
+        [HttpGet("exist/{slnumber}")]
+        public async Task<IActionResult> DeviceExist(string slnumber)
+        {
+            var service = new DeviceRepositoryService(connString);
+            var res = await service.GetAllDetailDeviceBySerialNumber(slnumber);
+            bool result = false;
+            if (res != null) result = true;
+            var response = new GenericResponse<bool>()
+            {
+                IsSuccess = true,
+                Message = "Data fetched successfully.",
+                ResponseCode = 200,
+                Result = result
+            };
+            return Ok(response);
+        }
     }
 }

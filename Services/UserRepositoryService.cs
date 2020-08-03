@@ -43,6 +43,9 @@ namespace Snehix.Core.API.Services
                 cmd.Parameters.AddWithValue("lstName", model.LastName);
                 cmd.Parameters.AddWithValue("ftrName", model.FatherName);
                 cmd.Parameters.AddWithValue("mtrName", model.LastName);
+                cmd.Parameters.AddWithValue("RollNumberVal", model.RollNumber);
+                cmd.Parameters.AddWithValue("PicUrlVal", model.PictureUrl);
+                
 
                 if (model.GuardianId.HasValue)
                     cmd.Parameters.AddWithValue("grdId", model.GuardianId);
@@ -507,7 +510,8 @@ namespace Snehix.Core.API.Services
                         if (int.TryParse(dr["SectionId"].ToString(), out int outSectionId))
                             row.SectionId = outSectionId;
                         row.SectionName = dr["Section"].ToString();
-
+                        row.RollNumber = dr["RollNumber"].ToString();
+                        row.PictureUrl = dr["PictureUrl"].ToString();
                         dt.Add(row);
                     }
                 }
@@ -555,7 +559,8 @@ namespace Snehix.Core.API.Services
                         if (int.TryParse(dr["SectionId"].ToString(), out int outSectionId))
                             row.SectionId = outSectionId;
                         row.SectionName = dr["Section"].ToString();
-
+                        row.RollNumber = dr["RollNumber"].ToString();
+                        row.PictureUrl = dr["PictureUrl"].ToString();
                         dt.Add(row);
                     }
                 }
@@ -601,7 +606,9 @@ namespace Snehix.Core.API.Services
                         row.ClassName = dr["Class"].ToString();
                         if (int.TryParse(dr["SectionId"].ToString(), out int outSectionId))
                             row.SectionId = outSectionId;
-                        row.SectionName = dr["Section"].ToString();                       
+                        row.SectionName = dr["Section"].ToString();
+                        row.RollNumber = dr["RollNumber"].ToString();
+                        row.PictureUrl = dr["PictureUrl"].ToString();
                     }
                 }
                 return row;
