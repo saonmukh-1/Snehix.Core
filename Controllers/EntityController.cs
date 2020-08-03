@@ -214,5 +214,21 @@ namespace Snehix.Core.API.Controllers
             };
             return Ok(response);
         }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var service = new EntityRepositoryService(connString);
+            await service.DeleteEntity(id);
+            var response = new GenericResponse<string>()
+            {
+                IsSuccess = true,
+                Message = "Entity deleted successfully.",
+                ResponseCode = 200,
+                Result = "Success"
+            };
+            return Ok(response);
+        }
     }
 }

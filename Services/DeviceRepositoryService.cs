@@ -370,5 +370,20 @@ namespace Snehix.Core.API.Services
                 await _connection.CloseAsync();
             }
         }
+
+        public async Task DeleteDevice(int id,string actor)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+                var cmd = new MySqlCommand("Delete_Device", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("DeviceId", id);
+                cmd.Parameters.AddWithValue("Actor", actor);
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
     }
 }

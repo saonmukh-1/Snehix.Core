@@ -479,5 +479,33 @@ namespace Snehix.Core.API.Services
             catch { throw; }
             finally { await _connection.CloseAsync(); }
         }
+
+        public async Task DeleteEntity(int id)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+                var cmd = new MySqlCommand("Delete_Entity", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("EntityId", id);
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
+        public async Task DeleteEntityType(int id)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+                var cmd = new MySqlCommand("Delete_EntityType", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("EntityTypeId", id);
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
     }
 }

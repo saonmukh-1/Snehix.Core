@@ -11,6 +11,7 @@ using Snehix.Core.API.DTO;
 using Snehix.Core.API.Filters;
 using Snehix.Core.API.Models;
 using Snehix.Core.API.Services;
+using Snehix.Core.API.Utility;
 
 namespace Snehix.Core.API.Controllers
 {
@@ -239,6 +240,23 @@ namespace Snehix.Core.API.Controllers
                 Message = "Data fetched successfully.",
                 ResponseCode = 200,
                 Result = result
+            };
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
+            var service = new DeviceRepositoryService(connString);
+            await service.DeleteDevice(id, username);
+            var response = new GenericResponse<string>()
+            {
+                IsSuccess = true,
+                Message = "Device deleted successfully.",
+                ResponseCode = 200,
+                Result = "Success"
             };
             return Ok(response);
         }
