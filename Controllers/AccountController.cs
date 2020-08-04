@@ -16,6 +16,9 @@ using Snehix.Core.API.Filters;
 using Snehix.Core.API.Services;
 using MailKit.Net.Smtp;
 using MimeKit;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using Snehix.Core.API.Models;
 
 namespace Snehix.Core.API.Controllers
 {
@@ -30,6 +33,7 @@ namespace Snehix.Core.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
+
         string ConnString { get; set; }
 
         /// <summary>
@@ -142,32 +146,32 @@ namespace Snehix.Core.API.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// Send password reset link
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpPost("requestresetpassword/{username}")]
         public async Task<object> SendPasswordResetLink(string username)
         {
             var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == username);
             var token = _userManager.GeneratePasswordResetTokenAsync(appUser).Result;
-            var resetLink = $"http://localhost:50232/Account/ResetPassword?token={token}";
-            
-            MimeMessage message = new MimeMessage();
-
-            MailboxAddress from = new MailboxAddress("no-reply",
-            "no-reply@Snehix.Com");
-            message.From.Add(from);
-
-            MailboxAddress to = new MailboxAddress(appUser.UserName,
-            appUser.Email);
-            message.To.Add(to);
-
-            message.Subject = "Password-Reset";
-
-            BodyBuilder bodyBuilder = new BodyBuilder();
+            var resetLink = $"{_configuration.GetValue<string>("JwtExpireDays")}/Account/ResetPassword?token={token}";
+            var SendgridKey = _configuration.GetValue<string>("SendgridKey");
             StringBuilder sr = new StringBuilder();
             sr.Append($"<h1>Hi {appUser.UserName}, </h1>");
             sr.Append("<br/>");
             sr.Append($"<h1>Click {resetLink} </h1>");
-            bodyBuilder.HtmlBody = sr.ToString();
-            
+
+            var client = new SendGridClient(SendgridKey);
+            var from = new EmailAddress("no-reply@snehix.com", "Snehix-Admin");
+            var subject = "Password reset request";
+            var to = new EmailAddress(appUser.Email, appUser.UserName);
+            var plainTextContent = sr.ToString();
+            var htmlContent = sr.ToString();
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var resp = await client.SendEmailAsync(msg);
+
             if (!string.IsNullOrEmpty(token))
             {
                 var response = new GenericResponse<string>()
@@ -182,27 +186,27 @@ namespace Snehix.Core.API.Controllers
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
 
-        public class LoginDto
+        [HttpPost("resetpassword")]
+        public async Task<object> ResetPassword(PasswordResetModel model)
         {
-            [Required]
-            public string Username { get; set; }
+            var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == model.Username);
+            var token = model.token;
+            var res = await _userManager.ResetPasswordAsync(appUser, token, model.NewPassword);          
 
-            [Required]
-            public string Password { get; set; }
-
-            [Required]
-            public string DeviceIP { get; set; }
-
+            if (res.Succeeded)
+            {
+                var response = new GenericResponse<string>()
+                {
+                    IsSuccess = true,
+                    Message = "Password reset successfully.",
+                    ResponseCode = 200,
+                    Result = token
+                };
+                return Ok(response);
+            }
+            throw new ApplicationException("Sorry. Please try again..");
         }
-        
-        public class RegisterDto
-        {
-            [Required]
-            public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
-            public string Password { get; set; }
-        }
+       
     }
 }
