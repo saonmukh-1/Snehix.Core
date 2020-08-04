@@ -44,7 +44,7 @@ namespace Snehix.Core.API.Controllers
             _configuration = configuration;
             connString = configuration.GetConnectionString("Default");
         }
-       
+
         /// <summary>
         /// Create user
         /// </summary>
@@ -63,7 +63,7 @@ namespace Snehix.Core.API.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             var userType = await serviceEntity.GetAllEntityById(model.UserTypeId);
 
-            
+
             var response = new GenericResponse<string>();
             if (result.Succeeded)
             {
@@ -84,11 +84,11 @@ namespace Snehix.Core.API.Controllers
                 {
                     IsSuccess = false,
                     Message = "Failure",
-                    ErrorMessage = result.Errors.Select(a=>a.Description).ToList(),
+                    ErrorMessage = result.Errors.Select(a => a.Description).ToList(),
                     ResponseCode = 500,
                     Result = "Failure"
-                };              
-                
+                };
+
             }
             return Ok(response);
         }
@@ -99,7 +99,7 @@ namespace Snehix.Core.API.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPut("{id}")]        
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, UserUpdateModel model)
         {
             var service = new UserRepositoryService(connString);
@@ -120,7 +120,7 @@ namespace Snehix.Core.API.Controllers
         /// <param name="username"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpGet]        
+        [HttpGet]
         public async Task<IActionResult> Get(string username)
         {
             var result = new List<UserDTO>();
@@ -145,7 +145,7 @@ namespace Snehix.Core.API.Controllers
         /// <param name="id">User id</param>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("{id}")]        
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var service = new UserRepositoryService(connString);
@@ -199,7 +199,7 @@ namespace Snehix.Core.API.Controllers
             //var token = jwtHandler.ReadJwtToken(value);
             //var usernameClaim = token.Claims.Where(a=>a.Type=="sub").FirstOrDefault();
             var service = new UserRepositoryService(connString);
-            await service.UpdateUserLogin(username, model.IsNewAccount,model.IPAddress);
+            await service.UpdateUserLogin(username, model.IsNewAccount, model.IPAddress);
             var response = new GenericResponse<string>()
             {
                 IsSuccess = true,
@@ -215,8 +215,8 @@ namespace Snehix.Core.API.Controllers
         public async Task<IActionResult> UserSearch(UserSearch model)
         {
             var service = new UserRepositoryService(connString);
-            
-            var result = await service.GetUserByInstitute(model.InstituteId,model.ClassId,model.SectionId);
+
+            var result = await service.GetUserByInstitute(model.InstituteId, model.ClassId, model.SectionId);
             var response = new GenericResponse<List<UserDetails>>()
             {
                 IsSuccess = true,
@@ -239,6 +239,23 @@ namespace Snehix.Core.API.Controllers
                 Message = "Data fetched successfully.",
                 ResponseCode = 200,
                 Result = result
+            };
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteUser(int Id)
+        {
+            var service = new UserRepositoryService(connString);
+            var username = ApplicationUtility.GetTokenAttribute(Request.Headers["Authorization"], "sub");
+            await service.DeleteUser(Id,username);
+            var response = new GenericResponse<string>()
+            {
+                IsSuccess = true,
+                Message = "User deleted successfully.",
+                ResponseCode = 200,
+                Result = "Success"
             };
             return Ok(response);
         }

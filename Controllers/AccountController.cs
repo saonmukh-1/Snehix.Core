@@ -151,8 +151,8 @@ namespace Snehix.Core.API.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [HttpPost("requestresetpassword/{username}")]
-        public async Task<object> SendPasswordResetLink(string username)
+        [HttpPost("{username}")]
+        public async Task<object> requestresetpassword(string username)
         {
             var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == username);
             var token = _userManager.GeneratePasswordResetTokenAsync(appUser).Result;
@@ -186,7 +186,7 @@ namespace Snehix.Core.API.Controllers
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
 
-        [HttpPost("resetpassword")]
+        [HttpPost()]
         public async Task<object> ResetPassword(PasswordResetModel model)
         {
             var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == model.Username);

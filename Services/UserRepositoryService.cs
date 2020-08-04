@@ -618,5 +618,20 @@ namespace Snehix.Core.API.Services
 
         }
 
+        public async Task DeleteUser(int UserId, string Actor)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+                var cmd = new MySqlCommand("Delete_User", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("UserIdVal", UserId);
+                cmd.Parameters.AddWithValue("Actor", Actor);                
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { await _connection.CloseAsync(); }
+        }
+
     }
 }
